@@ -1,0 +1,135 @@
+/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+ define(['N/format', 'N/log', 'N/record', 'N/runtime', 'N/search'],
+ /**
+* @param{format} format
+* @param{log} log
+* @param{record} record
+* @param{runtime} runtime
+* @param{search} search
+*/
+ (format, log, record, runtime, search) => {
+
+     let response = {
+         code: 200,
+         message: "",
+         result:[]
+     };
+     let response2 = {
+         code: 200,
+         message: "",
+         result:[]
+     };
+     const get = (request) => {
+         try {
+
+             let filters = [];
+             let id = request.internalid;
+             log.debug('request id', id);
+             if (id) {
+                 filters.push(["internalidnumber", "equalto", id]);
+             } else {
+                 response.message = "Agregar un campo id en la solicitud";
+                 return response;
+             }
+             
+             var itemSearchObj = search.create({
+                 type: "item",
+                 filters: filters,
+                 columns:
+                 [
+                     search_name = search.createColumn({name: "itemid",sort: search.Sort.ASC,label: "Name"}),
+
+                     search_displayname = search.createColumn({ name: "displayname", label: "Display Name" }),
+                     search_cantidad = search.createColumn({name: "totalquantityonhand", label: "Total Quantity On Hand"}),
+                     search_description = search.createColumn({ name: "salesdescription", label: "Description" }),
+                     search_price = search.createColumn({ name: "baseprice", label: "Base Price" }),
+                     search_vendor = search.createColumn({ name: "othervendor", label: "Vendor" }),
+                     search_location = search.createColumn({name: "inventorylocation", label: "Inventory Location"}),
+                     search_type = search.createColumn({ name: "type", label: "Type" }),
+                     search_itemid = search.createColumn({ name: "internalid", label: "itemid" }),
+                 ]
+             });
+             // var resultado = [];
+             // let arrcount = [];
+             var searchResultCount = itemSearchObj.runPaged().pageRanges;
+             var pagedData = itemSearchObj.runPaged({ "pa​g​e​S​i​z​e": 1000 });
+             for (var i = 0; i < pagedData.pageRanges.length; i++) {
+                 var currentPage = pagedData.fetch(i);
+                 currentPage.data.forEach(function(result){
+
+                     var inventorynumberSearchObj = search.create({
+                         type: "inventorynumber",
+                         filters: [[["item", "anyof",result.getValue(search_itemid)],"AND", 
+                         ["quantityavailable","equalto","1"]]],
+                         columns:
+                         [
+                             search.createColumn({
+                                 name: "inventorynumber",
+                                 sort: search.Sort.ASC,
+                                 label: "Number"
+                             }),
+                             search_serial = search.createColumn({ name: "internalid", label: "Internal ID" }),
+                             search_serialname = search.createColumn({ name: "inventorynumber", label: "Serial Lot" }),
+                             search_location = search.createColumn({name: "location", label: "Location"}),
+                         ]
+                     });
+                     
+
+                     var serial_number = [];
+                     var searchResultCount = inventorynumberSearchObj.runPaged().pageRanges;
+                     var pagedData2 = inventorynumberSearchObj.runPaged({
+                         "pa​g​e​S​i​z​e": 1000,
+                     });
+                     
+                     /* for (var j = 0; j < pagedData2.pageRanges.length; j++) {
+                         var currentPage2 = pagedData2.fetch(j);
+                         currentPage2.data.forEach(function (result2) {
+                             
+
+                             serial_number.push({
+                                 serial: result2.getValue(search_serialname),
+                                 ubicacion: result2.getValue(search_location),
+                             });
+                         });
+                     } */
+
+                    /*  response.result.push({
+                        id: result.getValue(search_itemid),
+                        tota_disp: result.getValue(search_cantidad),
+                        inventario:{
+                            disponible: result.getValue(search_cantidad),
+                            serial_number:serial_number
+                        }    
+                    }); */
+
+                    response.result.push({
+                       id: result.getValue(search_itemid),
+                       tota_disp: result.getValue(search_cantidad),
+                   });
+                     });
+
+
+                 }
+
+
+              
+                 
+                 return response;
+             } catch (error) {
+                 log.debug('error: ', error);
+                 reponse.message = error.message;
+             }
+             return response;
+             
+         }
+         
+         
+         return { get: get }
+         
+     });
+     
+     
+     

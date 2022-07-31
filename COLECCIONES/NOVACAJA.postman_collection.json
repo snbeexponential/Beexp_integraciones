@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "8504581b-3b94-48a0-a827-249b6510d39a",
+		"name": "NOVACAJA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17831296"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"EsDeEntrada\": true,\n  \"Location\": \"2335\",\n  \"Renglones\": [\n    {\n      \"InternalID\": \"37971\",\n      \"Cantidad\": 2\n    },\n     {\n      \"InternalID\": \"37971\",\n      \"Cantidad\": 2\n    },\n     {\n      \"InternalID\": \"37971\",\n      \"Cantidad\": 2\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://77743132694a.ngrok.io/api/v1/nota",
+					"protocol": "http",
+					"host": [
+						"77743132694a",
+						"ngrok",
+						"io"
+					],
+					"path": [
+						"api",
+						"v1",
+						"nota"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

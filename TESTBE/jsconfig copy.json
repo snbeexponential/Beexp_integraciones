@@ -1,0 +1,51 @@
+{
+"no_articulo_itelisis":"string", 
+    "nombre_art":"string",
+    "clase":"string",
+    "subclase":"string", 
+    "unidad_medida":"string", 
+    "ingredient_act":"string", 
+    "fabricante":"string", 
+    "description_ventas":"string", 
+    "taxschedule":"string", 
+    "custitem_bex_az_iepsarticulo":"string", 
+    "impuesto_iva":"string", 
+    "impuesto_ieps":"string",
+    "precios":[
+        { 
+            "currency":"string", 
+            "Price":"string",
+            "level":"string"
+        },
+        {
+            "level":"string", 
+            "currency":"string",
+            "Price":2342342
+        }]
+}
+
+{
+    itemid:request.no_articulo_itelisis, 
+    displayname:request.nombre_art,
+    class:request.clase,
+    custitem_bex_az_subclase:request.subclase, 
+    custitem_beex_az_um:request.unidad_medida, 
+    custitem_bex_az_ingreact:request.ingredient_act, 
+    manufacturer:request.fabricante, 
+    salesdescription:request.description_ventas, 
+    taxschedule:request.taxschedule, 
+    custitem_bex_az_iepsarticulo:request.custitem_bex_az_iepsarticulo, 
+    taxschedule:request.impuesto_iva, 
+    custitem_bex_az_iepsarticulo:request.impuesto_ieps,
+    "precios":[
+        { 
+            "level":"string",
+            "currency":"string", 
+            "price":"string"
+        },
+        { 
+            "level":"string",
+            "currency":"string", 
+            "price":"string"
+        }
+}

@@ -1,0 +1,63 @@
+{
+    "entity": "35895",
+    "subsidiary": 1,
+    "subtotal": "110.3",
+    "discount": "",
+    "tax": "17.65",
+    "total": "127.95",
+    "fecha": "01/01/2022",
+    "item": [
+        {
+            "itemId": "59705",
+            "description": "CORTE DE PERFIL R-0249 C-18",
+            "quantity": "5",
+            "amount": "6.12",
+            "discount": "",
+            "tax": ".98",
+            "total": "6.12"
+            
+        },
+        {
+            "itemId": "31884",
+            "description": "ALIMENTADOR P/MONOMANDO 2/PZ 49436 FOSET",
+            "quantity": "2",
+            "amount": "104.18",
+            "discount": "",
+            "tax": "16.65",
+            "total": "104.18",
+            "custcol26":1
+        }
+    ]
+}
+
+
+    {
+        "id": 152406,
+        "amount":1,
+        "trandate":"10/10/2021",
+        "paymentmethod":1
+    }, {
+        "id": 152406,
+        "amount":1,
+        "trandate":"10/10/2021",
+        "paymentmethod":1
+    }
+
+    [ 
+
+        { 
+        "id":128701, 
+        "amount":1, 
+        "trandate":"10/11/2021", 
+        "paymentmethod":1 
+        },
+        { 
+        "id":128701, 
+        "amount":1, 
+        "trandate":"10/11/2021", 
+        "paymentmethod":1 
+        } 
+        ] 
+
+
+    

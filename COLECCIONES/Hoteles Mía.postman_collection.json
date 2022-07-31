@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "5a5f4452-8809-4680-aed9-690a50e00ad9",
+		"name": "Hoteles Mía",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17831296"
+	},
+	"item": [
+		{
+			"name": "GET_Clientes_806",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"tipopersona\": \"true\", \n\"nombrecompleto\": \"Karen Moreno\", \n\"status\": \"13\",\n\"telefono\": \"9991110022\",\n\"email\": \"email.karen@moreno.com\",\n\"subsidiaria\": \"5\",\n\"pais\": \"MX\", \n\"telofonodireccion\": \"4912048273\", \n\"entrecalles\": \"24Y26\", \n\"direccion\": \"Mi casa es la dirección\",\n\"municipio\": \"Mérida\", \n\"estado\": \"YUC\", \n\"codigopostal\": \"97000\", \n\"rfc\": \"QWEQR1234POIU9\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7621629-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=806&deploy=1&internalid=2049",
+					"protocol": "https",
+					"host": [
+						"7621629-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "806"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "internalid",
+							"value": "2049"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST_Clientes_806",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"tipopersona\":\"T\",\n\"firstname\":\"Hafida\",\n\"lastname\":\"Carrero\",\n\"nombrecompleto\":\"Hafida Carrero\",\n\"status\":\"13\",\n\"telefono\":\"5591117777\",\n\"email\":\"Lorenza@Hafida.com\",   \n\"subsidiaria\":\"5\",\n\"rfc\":\"RFC090POPLA12\",\n\"pricelevel\":\"1\",\n\"currency\":\"1\",\n\"terms\":\"8\",\n\"representante\":\"\",\n\"category\":\"1\",\n\"contactoscliente\":[],\n\"direccion\":[{\n    \"direccion\":\"10 NO. 1050, AGUA PRIETA CENTRO, 84270\", \n    \"nombrecalle\":\"Agua\",\n    \"numerocalle\":\"22\",\n    \"nota\":\"Edificio 131-89\",\n    \"pais\":\"MX\",\n    \"telofonodireccion\":\"0180055555\",\n    \"municipio\":\"Centeno\",\n    \"estado\":\"DUR\",\n    \"codigopostal\":\"20111\"\n}]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7621629-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=806&deploy=1&internalid=2049",
+					"protocol": "https",
+					"host": [
+						"7621629-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "806"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "internalid",
+							"value": "2049"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT_Clientes_806",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"idcliente\":\"\",\n\"tipopersona\":\"T\",\n\"firstname\":\"Hafida\",\n\"lastname\":\"Carrero\",\n\"nombrecompleto\":\"Hafida Carrero\",\n\"status\":\"13\",\n\"telefono\":\"5591117777\",\n\"email\":\"Lorenza@Hafida.com\",   \n\"subsidiaria\":\"5\",\n\"rfc\":\"RFC090POPLA12\",\n\"pricelevel\":\"1\",\n\"currency\":\"1\",\n\"terms\":\"8\",\n\"representante\":\"\",\n\"category\":\"1\",\n\"direccion\":[{\n    \"direccion\":\"LUIS D COLOSIO NO. 158 NO. 6, CENTENARIO, 83260\", \n    \"nombrecalle\":\"Colosio\",\n    \"numerocalle\":\"12\",\n    \"nota\":\"Edificio 131 89\",\n    \"pais\":\"MX\",\n    \"telofonodireccion\":\"0180012124\",\n    \"municipio\":\"Tueia\",\n    \"estado\":\"JAL\",\n    \"codigopostal\":\"90111\"\n}]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7621629-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=806&deploy=1&internalid=1",
+					"protocol": "https",
+					"host": [
+						"7621629-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "806"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "internalid",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST_INVETORY_ADJ_812",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"subsidiary\": \"5\",\n    \"department\": \"14\",\n    \"class\": \"13\",\n    \"adjlocation\": \"1\",\n    \"account\": \"426\",\n    \"item\": [\n        {\n            \"idItem\": \"135\",\n            \"location\": \"13\",\n            \"units\": \"2\",\n            \"description\": \"BOWL VANTA 22 CM 850CC MOD:ATR\",\n            \"adjustqtyby\": \"10 \",\n            \"avgunitcost\": \"30\",\n            \"department\": \"14\",\n            \"class\": \"13\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7621629-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=812&deploy=1",
+					"protocol": "https",
+					"host": [
+						"7621629-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "812"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT_INVETORY_ADJ_812",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"idajuste\":6992,\n    \"subsidiary\": \"5\",\n    \"department\": \"10\",\n    \"class\": \"12\",\n    \"adjlocation\": \"1\",\n    \"account\": \"426\",\n    \"item\": [\n        {\n            \"idItem\":\"113\",\n            \"location\": \"13\",\n            \"units\":\"2\",\n            \"description\":\"Sabanas\",\n            \"adjustqtyby\":\"100 \",\n            \"unitcost\": \"350\",\n            \"department\":\"10\",\n            \"class\":\"12\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://7621629-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=812&deploy=1",
+					"protocol": "https",
+					"host": [
+						"7621629-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "812"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth1",
+		"oauth1": [
+			{
+				"key": "addParamsToHeader",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "realm",
+				"value": "7621629_SB1",
+				"type": "string"
+			},
+			{
+				"key": "consumerKey",
+				"value": "8b3f90354d7eab4223c374c9f6654fc18167b5440d7006dba4661c87481064c8",
+				"type": "string"
+			},
+			{
+				"key": "consumerSecret",
+				"value": "6ee901c29141ff154b98ea06cd12961245da978fea9a7af4937c5b44696cc4ac",
+				"type": "string"
+			},
+			{
+				"key": "token",
+				"value": "95392a44f63fa6e90db10ec2269bd9e2f7686a231ffdd9006dbd132470a1b642",
+				"type": "string"
+			},
+			{
+				"key": "tokenSecret",
+				"value": "01a7ee3a954c4c8d7cc042d4095f835f5866d8cee38f14337c30405b2fa611d2",
+				"type": "string"
+			},
+			{
+				"key": "signatureMethod",
+				"value": "HMAC-SHA256",
+				"type": "string"
+			},
+			{
+				"key": "version",
+				"value": "1.0",
+				"type": "string"
+			},
+			{
+				"key": "addEmptyParamsToSign",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

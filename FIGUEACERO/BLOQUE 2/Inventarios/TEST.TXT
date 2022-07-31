@@ -1,0 +1,31 @@
+Ejemplo de un CFDI de Pago:
+Pago que se realizo el "04/04/2022" al RFC "XAER001122912" en la ubicacion con el codigo postal "97000"
+para liquidar un solo pago 1/1 de "2500" pesos en efectivo "01"
+al CFDI relacionado con el siguiente Folio Fiscal: "F002C500-EEB4-4720-874D-B200DB00F960"
+
+
+var newCfdi = {
+        "Receiver": {
+            "Name": "Nombre de cliente 99 minutos",
+            "CfdiUse": "P01",
+            "Rfc": "XAER001122912",            
+        }, 
+        "CfdiType": "P",
+        "NameId": "14",
+        "ExpeditionPlace": "78216",                        
+        "Complemento": {
+            "Payments": [{
+                "Date": "2022-04-05T05:00:00.000Z",
+                "PaymentForm": "01",                
+                "Amount": "2500",
+                "RelatedDocuments": [{
+                    "Uuid": "F002C500-EEB4-4720-874D-B200DB00F960",                    
+                    "Folio": "100032007",                    
+                    "PaymentMethod": "PUE",
+                    "PartialityNumber": "1",
+                    "PreviousBalanceAmount": "2500",
+                    "AmountPaid": "2500"
+                }]
+            }]
+        }
+    };

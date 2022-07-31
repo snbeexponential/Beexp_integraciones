@@ -1,0 +1,470 @@
+//Aplica para todo tipo de articulos (Inventariables, kit , etc)
+{
+    "ubicacion": [{
+        "idubicación":"numeric",
+        "descripcion":"string",
+        "articulos":[
+            {
+                "internalid": "numeric",        //vALO 
+                "Descripcia": "string",        //vALO 
+                "nombre":"string", 
+                "tipo":"string", //Puede ser kit o no kit
+                "art_desccomp": "string",
+                "costoarticulo": "numeric",
+                "proveedor": "string",
+                "art_gtinv": "string",
+                "SAT_ProdServClave": "numeric",
+                "art_sku": "string",
+                "art_afectainv": "string",
+                "art_admitedesc": "string",
+                "art_decimalesunidades": "numeric",
+                "art_notas": "string",
+                "art_admiteofertas": "string",
+                //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                "serial_number": [
+                    {
+                        "serial":"95"
+                    },
+                    {
+                        "serial":"95"
+                    },
+                    {
+                        "serial":"95"
+                    }
+                ],
+                "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                    "idpackage": "numeric",
+                    "package_name": "string",
+                    "package_skucode":"numeric",
+                    "package_sat_code": "numeric",
+                    "package_adm_descuento": "string",
+                    "package_afecta_inv":"string",
+                    "package_adm_ofertas": "string",
+                    "package_notas": "string",
+                    "package_costo": "numeric",
+                    "componentes" : [{
+                        "id_packarticulo":"numeric",
+                        "nombre_articulo": "string",
+                    "cantidad": "numeric",
+                    "unidad_medida": "string",
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ]
+                },
+                {
+                    "id_packarticulo":"numeric",
+                    "nombre_articulo": "string",
+                    "cantidad": "numeric",
+                    "unidad_medida": "string",
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ]
+                }
+                ]}
+            ]
+            },
+            {
+                "internalid": "numeric",        //vALO 
+                "Descripcia": "string",        //vALO 
+                "nombre":"string", 
+                "tipo":"string", //Puede ser kit o no kit
+                "art_desccomp": "string",
+                "costoarticulo": "numeric",
+                "proveedor": "string",
+                "art_gtinv": "string",
+                "SAT_ProdServClave": "numeric",
+                "art_sku": "string",
+                "art_afectainv": "string",
+                "art_admitedesc": "string",
+                "art_decimalesunidades": "numeric",
+                "art_notas": "string",
+                "art_admiteofertas": "string",
+                //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                "serial_number": [
+                    {
+                        "serial":"95"
+                    },
+                    {
+                        "serial":"95"
+                    },
+                    {
+                        "serial":"95"
+                    }
+                ],
+                "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                    "idpackage": "numeric",
+                    "package_name": "string",
+                    "package_skucode":"numeric",
+                    "package_sat_code": "numeric",
+                    "package_adm_descuento": "string",
+                    "package_afecta_inv":"string",
+                    "package_adm_ofertas": "string",
+                    "package_notas": "string",
+                    "package_costo": "numeric",
+                    "componentes" : [{
+                        "id_packarticulo":"numeric",
+                        "nombre_articulo": "string",
+                    "cantidad": "numeric",
+                    "unidad_medida": "string",
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ]
+                },
+                {
+                    "id_packarticulo":"numeric",
+                    "nombre_articulo": "string",
+                    "cantidad": "numeric",
+                    "unidad_medida": "string",
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ]
+                }
+                ]}
+            ]
+            }]
+        },
+        {
+        "idubicación":"numeric",
+        "descripcion":"string",
+        "articulos":[
+            {
+                    "internalid": "numeric",        //vALO 
+                    "Descripcia": "string",        //vALO 
+                    "nombre":"string", 
+                    "tipo":"string", //Puede ser kit o no kit
+                    "art_desccomp": "string",
+                    "costoarticulo": "numeric",
+                    "proveedor": "string",
+                    "art_gtinv": "string",
+                    "SAT_ProdServClave": "numeric",
+                    "art_sku": "string",
+                    "art_afectainv": "string",
+                    "art_admitedesc": "string",
+                    "art_decimalesunidades": "numeric",
+                    "art_notas": "string",
+                    "art_admiteofertas": "string",
+                    //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ],
+                    "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                        "idpackage": "numeric",
+                        "package_name": "string",
+                        "package_skucode":"numeric",
+                        "package_sat_code": "numeric",
+                        "package_adm_descuento": "string",
+                        "package_afecta_inv":"string",
+                        "package_adm_ofertas": "string",
+                        "package_notas": "string",
+                        "package_costo": "numeric",
+                        "componentes" : [{
+                            "id_packarticulo":"numeric",
+                            "nombre_articulo": "string",
+                        "cantidad": "numeric",
+                        "unidad_medida": "string",
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ]
+                    },
+                    {
+                        "id_packarticulo":"numeric",
+                        "nombre_articulo": "string",
+                        "cantidad": "numeric",
+                        "unidad_medida": "string",
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ]
+                    }
+                    ]}
+                ]
+            },
+            {
+                    "internalid": "numeric",        //vALO 
+                    "Descripcia": "string",        //vALO 
+                    "nombre":"string", 
+                    "tipo":"string", //Puede ser kit o no kit
+                    "art_desccomp": "string",
+                    "costoarticulo": "numeric",
+                    "proveedor": "string",
+                    "art_gtinv": "string",
+                    "SAT_ProdServClave": "numeric",
+                    "art_sku": "string",
+                    "art_afectainv": "string",
+                    "art_admitedesc": "string",
+                    "art_decimalesunidades": "numeric",
+                    "art_notas": "string",
+                    "art_admiteofertas": "string",
+                    //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                    "serial_number": [
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        },
+                        {
+                            "serial":"95"
+                        }
+                    ],
+                    "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                        "idpackage": "numeric",
+                        "package_name": "string",
+                        "package_skucode":"numeric",
+                        "package_sat_code": "numeric",
+                        "package_adm_descuento": "string",
+                        "package_afecta_inv":"string",
+                        "package_adm_ofertas": "string",
+                        "package_notas": "string",
+                        "package_costo": "numeric",
+                        "componentes" : [{
+                            "id_packarticulo":"numeric",
+                            "nombre_articulo": "string",
+                        "cantidad": "numeric",
+                        "unidad_medida": "string",
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ]
+                    },
+                    {
+                        "id_packarticulo":"numeric",
+                        "nombre_articulo": "string",
+                        "cantidad": "numeric",
+                        "unidad_medida": "string",
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ]
+                    }
+                    ]}
+                ]
+            }]
+        },
+        {
+        "idubicación":"numeric",
+        "descripcion":"string",
+        "articulos":[
+            {
+                        "internalid": "numeric",        //vALO 
+                        "Descripcia": "string",        //vALO 
+                        "nombre":"string", 
+                        "tipo":"string", //Puede ser kit o no kit
+                        "art_desccomp": "string",
+                        "costoarticulo": "numeric",
+                        "proveedor": "string",
+                        "art_gtinv": "string",
+                        "SAT_ProdServClave": "numeric",
+                        "art_sku": "string",
+                        "art_afectainv": "string",
+                        "art_admitedesc": "string",
+                        "art_decimalesunidades": "numeric",
+                        "art_notas": "string",
+                        "art_admiteofertas": "string",
+                        //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ],
+                        "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                            "idpackage": "numeric",
+                            "package_name": "string",
+                            "package_skucode":"numeric",
+                            "package_sat_code": "numeric",
+                            "package_adm_descuento": "string",
+                            "package_afecta_inv":"string",
+                            "package_adm_ofertas": "string",
+                            "package_notas": "string",
+                            "package_costo": "numeric",
+                            "componentes" : [{
+                                "id_packarticulo":"numeric",
+                                "nombre_articulo": "string",
+                            "cantidad": "numeric",
+                            "unidad_medida": "string",
+                            "serial_number": [
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                }
+                            ]
+                        },
+                        {
+                            "id_packarticulo":"numeric",
+                            "nombre_articulo": "string",
+                            "cantidad": "numeric",
+                            "unidad_medida": "string",
+                            "serial_number": [
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                }
+                            ]
+                        }
+                        ]}
+                    ]
+            },
+            {
+                        "internalid": "numeric",        //vALO 
+                        "Descripcia": "string",        //vALO 
+                        "nombre":"string", 
+                        "tipo":"string", //Puede ser kit o no kit
+                        "art_desccomp": "string",
+                        "costoarticulo": "numeric",
+                        "proveedor": "string",
+                        "art_gtinv": "string",
+                        "SAT_ProdServClave": "numeric",
+                        "art_sku": "string",
+                        "art_afectainv": "string",
+                        "art_admitedesc": "string",
+                        "art_decimalesunidades": "numeric",
+                        "art_notas": "string",
+                        "art_admiteofertas": "string",
+                        //Si el artículo no es kit- en vez de elementos poner numeros de serie
+                        "serial_number": [
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            },
+                            {
+                                "serial":"95"
+                            }
+                        ],
+                        "elementos": [{    //Cuando el artículo no sea kit omitir este nodo
+                            "idpackage": "numeric",
+                            "package_name": "string",
+                            "package_skucode":"numeric",
+                            "package_sat_code": "numeric",
+                            "package_adm_descuento": "string",
+                            "package_afecta_inv":"string",
+                            "package_adm_ofertas": "string",
+                            "package_notas": "string",
+                            "package_costo": "numeric",
+                            "componentes" : [{
+                                "id_packarticulo":"numeric",
+                                "nombre_articulo": "string",
+                            "cantidad": "numeric",
+                            "unidad_medida": "string",
+                            "serial_number": [
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                }
+                            ]
+                        },
+                        {
+                            "id_packarticulo":"numeric",
+                            "nombre_articulo": "string",
+                            "cantidad": "numeric",
+                            "unidad_medida": "string",
+                            "serial_number": [
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                },
+                                {
+                                    "serial":"95"
+                                }
+                            ]
+                        }
+                        ]}
+                    ]
+            }]
+        }
+    ]
+    
+}

@@ -1,0 +1,180 @@
+{
+    "code": 200,
+    "message": "",
+    "result": [
+        {
+            "internalid": "2501",
+            "art_descripcion": "GWH12QB-A1NNB4A/O 1 TON, 110v, 60 Hz, 1 Fase. R22. Frio/Calor",
+            "ubicacion": "1",
+            "art_desccomp": "",
+            "costoarticulo": "",
+            "proveedor": "GWH12QB-A1NNB4A/O",
+            "art_gtinv": "",
+            "SAT_ProdServClave": "",
+            "art_sku": "",
+            "art_afectainv": "",
+            "art_admitedesc": "",
+            "art_decimalesunidades": "",
+            "art_notas": "",
+            "art_admiteofertas": "",
+            "art_espkt": [
+                {
+                    "idarticulo": "2501",
+                    "cantidad": "28",
+                    "serial_number": [
+                        {
+                            "serial": "TST00001"
+                        },
+                        {
+                            "serial": "TST00002"
+                        },
+                        {
+                            "serial": "TST00003"
+                        },
+                        {
+                            "serial": "TST00004"
+                        },
+                        {
+                            "serial": "TST00005"
+                        },
+                        {
+                            "serial": "TST00006"
+                        },
+                        {
+                            "serial": "TST00007"
+                        },
+                        {
+                            "serial": "TST00008"
+                        },
+                        {
+                            "serial": "TST00009"
+                        },
+                        {
+                            "serial": "TST00010"
+                        },
+                        {
+                            "serial": "TST00011"
+                        },
+                        {
+                            "serial": "TST00012"
+                        },
+                        {
+                            "serial": "TST00013"
+                        },
+                        {
+                            "serial": "TST00014"
+                        },
+                        {
+                            "serial": "TST00015"
+                        },
+                        {
+                            "serial": "TST00016"
+                        },
+                        {
+                            "serial": "TST00017"
+                        },
+                        {
+                            "serial": "TST00018"
+                        },
+                        {
+                            "serial": "TST00019"
+                        },
+                        {
+                            "serial": "TST00020"
+                        },
+                        {
+                            "serial": "TST00021"
+                        },
+                        {
+                            "serial": "TST00022"
+                        },
+                        {
+                            "serial": "TST00023"
+                        },
+                        {
+                            "serial": "TST00024"
+                        },
+                        {
+                            "serial": "TST00025"
+                        },
+                        {
+                            "serial": "TST00026"
+                        },
+                        {
+                            "serial": "TST00027"
+                        },
+                        {
+                            "serial": "TST00028"
+                        },
+                        {
+                            "serial": "TST00029"
+                        },
+                        {
+                            "serial": "TST00030"
+                        },
+                        {
+                            "serial": "TST00031"
+                        },
+                        {
+                            "serial": "TST00032"
+                        },
+                        {
+                            "serial": "TST00033"
+                        },
+                        {
+                            "serial": "TST00034"
+                        },
+                        {
+                            "serial": "TST00035"
+                        },
+                        {
+                            "serial": "TST00036"
+                        },
+                        {
+                            "serial": "TST00037"
+                        },
+                        {
+                            "serial": "TST00038"
+                        },
+                        {
+                            "serial": "TST00039"
+                        },
+                        {
+                            "serial": "TST00040"
+                        },
+                        {
+                            "serial": "TST00041"
+                        },
+                        {
+                            "serial": "TST00042"
+                        },
+                        {
+                            "serial": "TST00043"
+                        },
+                        {
+                            "serial": "TST00044"
+                        },
+                        {
+                            "serial": "TST00045"
+                        },
+                        {
+                            "serial": "TST00046"
+                        },
+                        {
+                            "serial": "TST00047"
+                        },
+                        {
+                            "serial": "TST00048"
+                        },
+                        {
+                            "serial": "TST00049"
+                        },
+                        {
+                            "serial": "TST00050"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
