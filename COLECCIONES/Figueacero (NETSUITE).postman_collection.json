@@ -1,0 +1,1095 @@
+{
+	"info": {
+		"_postman_id": "444a34c6-6414-489d-9cc2-0b3b9a472d1a",
+		"name": "Figueacero (NETSUITE)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17831296"
+	},
+	"item": [
+		{
+			"name": "1102,GET - Clientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1102&deploy=1&id=38373",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1102"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "38373"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1102,POST - Clientes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"isperson\": true,\r\n    \"companyname\": \"company name test\",\r\n    \"customername\": \"ELIOT TURNER TEST\",\r\n    \"firstname\": \"ELIOT\",\r\n    \"lastname\": \"TURNER\",\r\n    \"entitystatus\": \"13\",\r\n    \"category\": \"1\",\r\n    \"salesrep\": \"\",\r\n    \"email\": \"eliot@testmail.com\",\r\n    \"phone\": \"1234567891\",\r\n    \"subsidiary\": \"1\",\r\n    \"pricelevel\": \"2\",\r\n    \"currency\": \"1\",\r\n    \"terms\": \"1\",\r\n    \"creditlimit\": \"50000\",\r\n    \"usocfdi\": \"11\",\r\n\r\n    \"rfc\": \"XXXRRROOO9343\",\r\n    \"regimenfiscal\":\"RIF\",\r\n\r\n     \"addressbook\": [\r\n            {\r\n            \"addressbookaddress\": {\r\n\r\n                                \"cve_entidad_fed\":\"01\",\r\n                                \"cve_municipio\":\"001\",\r\n                                \"cve_colonia\":\"001\",\r\n                                \"cve_localidad\":\"001\",\r\n\r\n                                \"notedirectiontype\": \"\",\r\n                                \"country\": \"MX\",\r\n                                \"attention\": \"\",\r\n                                \"label\": \"label de prueba\",\r\n                                \"addresse\": \"REGINA P. COWART\",\r\n                                \"addrphone\": \"987654321\",\r\n                                \"addr1\": \"VALLARTA\",\r\n                                \"addr2\": \"\",\r\n                                \"city\": \"NUEVO LEON\",\r\n                                \"state\": \"Monterrey\",\r\n                                \"zip\": \"60000\",\r\n                                \"vatregnumber\": \"XXXLLL88ASWEW\",\r\n                                \"isresidential\": false\r\n                                }\r\n            }\r\n                        ]\r\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1102&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1102"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1102,PUT - Clientes",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"internalid\": \"37905\",\r\n    \"isperson\": true,\r\n    \"companyname\": \"company name test\",\r\n    \"customername\": \"EDUARDO TURNER TEST\",\r\n    \"firstname\": \"EDUARDO\",\r\n    \"lastname\": \"TURNER\",\r\n    \"entitystatus\": \"13\",\r\n    \"category\": \"1\",\r\n    \"salesrep\": \"\",\r\n    \"email\": \"eliot@testmail.com\",\r\n    \"phone\": \"1231231231\",\r\n    \"subsidiary\": \"1\",\r\n    \"pricelevel\": \"2\",\r\n    \"currency\": \"1\",\r\n    \"terms\": \"1\",\r\n    \"creditlimit\": \"10000\",\r\n    \"rfc\": \"XXXRRROOO9000\",\r\n    \"usocfdi\": \"11\"\r\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1102&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1102"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1113,GET - Mercancias por fecha",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1113&deploy=1&desde=2022-02-27T12:03:00&hasta=2022-03-01T12:03:00",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1113"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "desde",
+							"value": "2022-02-27T12:03:00"
+						},
+						{
+							"key": "hasta",
+							"value": "2022-03-01T12:03:00"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1113,GET - Mercancias por id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1113&deploy=1&id=29599",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1113"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "29599"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1121,POST - Venta de mostrador",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"fromodv\":\"ODV9\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1121&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1121"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1123,POST - Venta de mostrador",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"\",\r\n    \"subsidiary\": 1,\r\n    \"subtotal\": \"110.3\",\r\n    \"discount\": \"\",\r\n    \"tax\": \"17.65\",\r\n    \"total\": \"127.95\",\r\n    \"fecha\": \"20/10/2021\",\r\n    \"custbody46\"->\"rutafigueacero\": true,  \r\n    \"shipdate\": \"20/10/2021\",\r\n    \"shipaddresslist\"->\"shipaddressid\": \"\",\r\n    \"item\": [{\r\n            \"item\": \"59705\",\r\n            \"description\": \"CORTE DE PERFIL R-0249 C-18\",\r\n            \"quantity\": \"5\",\r\n            \"amount\": \"6.12\",\r\n            \"discount\": \"\",\r\n            \"tax\": \".98\",\r\n            \"total\": \"6.12\",\r\n            \"custcol26\"->\"entrega\": 1\r\n        }, {\r\n            \"item\": \"31884\",\r\n            \"description\": \"ALIMENTADOR P/MONOMANDO 2/PZ 49436 FOSET\",\r\n            \"quantity\": \"2\",\r\n            \"amount\": \"104.18\",\r\n            \"discount\": \"\",\r\n            \"tax\": \"16.65\",\r\n            \"total\": \"104.18\",\r\n            \"custcol26\": 1\r\n        }\r\n    ]\r\n}\r\n"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1123&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1123"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1121,POST - Venta de mostrador Orig",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"entity\": \"29916\",\r\n\t\"fromodv\": \"\",\r\n\t\"tic\": \"1-2-1-16\",\r\n\t\"subsidiary\": \"1\",\r\n\t\"subtotal\": 18.34,\r\n\t\"discount\": 0.0,\r\n\t\"tax\": 2.93,\r\n\t\"total\": 21.27,\r\n\t\"fecha\": \"08/04/2022\",\r\n\t\"rutafigueacero\": false,\r\n\t\"shipdate\": \"\",\r\n\t\"shipaddressid\": \"\",\r\n\t\"item\": [\r\n\t\t{\r\n\t\t\t\"item\": \"29599\",\r\n\t\t\t\"description\": \"ALAMBRE DE PUAS CORCEL III 300 MTS.\",\r\n\t\t\t\"quantity\": 7.0,\r\n\t\t\t\"amount\": 18.34,\r\n\t\t\t\"discount\": 0.0,\r\n\t\t\t\"tax\": 2.93,\r\n\t\t\t\"total\": 21.27,\r\n\t\t\t\"entrega\": null,\r\n\t\t\t\"detallelote\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"cantidad\": 7.0,\r\n\t\t\t\t\t\"idlote\": \"4908\",\r\n\t\t\t\t\t\"ubicacion\": \"25\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1121&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1121"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1124,GET - Venta concretada",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1124&deploy=1&id=ODV7490",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1124"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "ODV7490"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAUL NAVARRO TEST MOV INVENTARIO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":182884\n\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1124&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1124"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1125,GET - Inventarios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"id\":29599}]"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1125&deploy=1&id=29599",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1125"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "29599"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1127,POST - Recepcion pagos",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"id\": 196770,\r\n        \"amount\": 21.28,\r\n        \"trandate\": \"1/12/2021\",\r\n        \"paymentmethod\":2\r\n    }\r\n]"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1127&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1127"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1130,POST - Recepcion de facturas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\": \"archivo2\",\r\n \"folder\": 5379,\r\n \"listid\":[1,2,3,4,5,6,7,8,9,10],\r\n \"UUID\": \"AAA123456789\",\r\n \"pdf\": \"JVBERi0xLjMKJd/++LIKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFIvTGFuZyhlbi1VUykvTmFtZXMgNCAwIFIvTWV0YWRhdGEgNiAwIFI+PgplbmRvYmoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0tpZHNbNSAwIFJdL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9Qcm9kdWNlcihodHRwOi8vYmZvLmNvbS9wcm9kdWN0cy9yZXBvcnQ/dmVyc2lvbj13b3JrLTIwMjAwNjEwVDE1MTgtcjM2ODE5TSkvQ3JlYXRpb25EYXRlKEQ6MjAyMTA4MTYxNTM2NDktMDcnMDAnKS9Nb2REYXRlKEQ6MjAyMTA4MTYxNTM2NDktMDcnMDAnKT4+CmVuZG9iago0IDAgb2JqCjw8L0Rlc3RzIDkgMCBSPj4KZW5kb2JqCjUgMCBvYmoKPDwvVHlwZS9QYWdlL01lZGlhQm94WzAgMCA3OTIgNjEyXS9SZXNvdXJjZXM8PC9Db2xvclNwYWNlPDwvRGVmYXVsdFJHQiA3IDAgUj4+L1Byb2NTZXRbL1BERi9UZXh0XS9Gb250PDwvUjEgMTAgMCBSL1IyIDEzIDAgUi9SMyAxMiAwIFI+Pj4+L0NvbnRlbnRzWzggMCBSXS9QYXJlbnQgMiAwIFI+PgplbmRvYmoKNiAwIG9iago8PC9UeXBlL01ldGFkYXRhL1N1YnR5cGUvWE1ML0xlbmd0aCA5MDE+PnN0cmVhbQ0KPD94cGFja2V0IGJlZ2luPSfvu78nIGlkPSdXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQnPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQkZPWE1QIHdvcmstMjAyMDA2MTBUMTUxOC1yMzY4MTlNIj48cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPjxyZGY6RGVzY3JpcHRpb24geG1sbnM6cGRmPSJodHRwOi8vbnMuYWRvYmUuY29tL3BkZi8xLjMvIiByZGY6YWJvdXQ9IiI+PHBkZjpQcm9kdWNlcj5odHRwOi8vYmZvLmNvbS9wcm9kdWN0cy9yZXBvcnQ/dmVyc2lvbj13b3JrLTIwMjAwNjEwVDE1MTgtcjM2ODE5TTwvcGRmOlByb2R1Y2VyPjwvcmRmOkRlc2NyaXB0aW9uPjxyZGY6RGVzY3JpcHRpb24geG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiByZGY6YWJvdXQ9IiI+PHhtcDpDcmVhdGVEYXRlPjIwMjEtMDgtMTZUMTU6MzY6NDktMDc6MDA8L3htcDpDcmVhdGVEYXRlPjx4bXA6TW9kaWZ5RGF0ZT4yMDIxLTA4LTE2VDE1OjM2OjQ5LTA3OjAwPC94bXA6TW9kaWZ5RGF0ZT48eG1wOk1ldGFkYXRhRGF0ZT4yMDIxLTA4LTE2VDE1OjM2OjQ5LTA3OjAwPC94bXA6TWV0YWRhdGFEYXRlPjwvcmRmOkRlc2NyaXB0aW9uPjxyZGY6RGVzY3JpcHRpb24geG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiByZGY6YWJvdXQ9IiI+PGRjOmRhdGU+PHJkZjpTZXE+PHJkZjpsaT4yMDIxLTA4LTE2VDE1OjM2OjQ5LTA3OjAwPC9yZGY6bGk+PC9yZGY6U2VxPjwvZGM6ZGF0ZT48ZGM6Zm9ybWF0PmFwcGxpY2F0aW9uL3BkZjwvZGM6Zm9ybWF0PjwvcmRmOkRlc2NyaXB0aW9uPjwvcmRmOlJERj48L3g6eG1wbWV0YT4KPD94cGFja2V0IGVuZD0ncic/PgplbmRzdHJlYW0KZW5kb2JqCjcgMCBvYmoKWy9DYWxSR0I8PC9HYW1tYVsyLjIgMi4yIDIuMl0vTWF0cml4WzAuNDEyMzg0IDAuMjEyNjQ2IDAuMDE5MzE4IDAuMzU3NTkgMC43MTUxNjQgMC4xMTkxNzEgMC4xODA0OTYgMC4wNzIxODkgMC45NTA1NDZdL1doaXRlUG9pbnRbMC45NTA0NyAxIDEuMDg4ODNdPj5dCmVuZG9iago4IDAgb2JqCjw8L0ZpbHRlci9GbGF0ZURlY29kZS9MZW5ndGggMTI0NT4+c3RyZWFtDQp4nNVZTW/bOBC9+1fwsAcbUBnOkBySxzQJFtktkNZxc+nuIVu7RbD5qjfF/v0dWhIly7QrBQaqjQ8SOMOZN/M45FBRQvEPxO+b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MDAgMTY3IDUwMCA1MDAgNTAwIDUwMCAxODAgNDQ0IDUwMCAzMzMgMzMzIDU1NiA1NTYgMCA1MDAgNTAwIDUwMCAyNTAgMCA0NTMgMzUwIDMzMyA0NDQgNDQ0IDUwMCAxMDAwIDEwMDAgMCA0NDQgMCAzMzMgMzMzIDMzMyAzMzMgMzMzIDMzMyAzMzMgMzMzIDAgMzMzIDMzMyAwIDMzMyAzMzMgMzMzIDEwMDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCA4ODkgMCAyNzYgMCAwIDAgMCA2MTEgNzIyIDg4OSAzMTAgMCAwIDAgMCAwIDY2NyAwIDAgMCAyNzggMCAwIDI3OCA1MDAgNzIyIDUwMF0+PgplbmRvYmoKMTEgMCBvYmoKPDwvVHlwZS9BY3Rpb24vUy9Hb1RvL0RbNSAwIFIvWFlaIDAgNjEyIDBdPj4KZW5kb2JqCjEyIDAgb2JqCjw8L1R5cGUvRm9udC9CYXNlRm9udC9IZWx2ZXRpY2EvU3VidHlwZS9UeXBlMS9Gb250RGVzY3JpcHRvciAxNyAwIFIvRmlyc3RDaGFyIDMyL0xhc3RDaGFyIDI1MS9XaWR0aHNbMjc4IDI3OCAzNTUgNTU2IDU1NiA4ODkgNjY3IDIyMiAzMzMgMzMzIDM4OSA1ODQgMjc4IDMzMyAyNzggMjc4IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiAyNzggMjc4IDU4NCA1ODQgNTg0IDU1NiAxMDE1IDY2NyA2NjcgNzIyIDcyMiA2NjcgNjExIDc3OCA3MjIgMjc4IDUwMCA2NjcgNTU2IDgzMyA3MjIgNzc4IDY2NyA3NzggNzIyIDY2NyA2MTEgNzIyIDY2NyA5NDQgNjY3IDY2NyA2MTEgMjc4IDI3OCAyNzggNDY5IDU1NiAyMjIgNTU2IDU1NiA1MDAgNTU2IDU1NiAyNzggNTU2IDU1NiAyMjIgMjIyIDUwMCAyMjIgODMzIDU1NiA1NTYgNTU2IDU1NiAzMzMgNTAwIDI3OCA1NTYgNTAwIDcyMiA1MDAgNTAwIDUwMCAzMzQgMjYwIDMzNCA1ODQgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAzMzMgNTU2IDU1NiAxNjcgNTU2IDU1NiA1NTYgNTU2IDE5MSAzMzMgNTU2IDMzMyAzMzMgNTAwIDUwMCAwIDU1NiA1NTYgNTU2IDI3OCAwIDUzNyAzNTAgMjIyIDMzMyAzMzMgNTU2IDEwMDAgMTAwMCAwIDYxMSAwIDMzMyAzMzMgMzMzIDMzMyAzMzMgMzMzIDMzMyAzMzMgMCAzMzMgMzMzIDAgMzMzIDMzMyAzMzMgMTAwMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEwMDAgMCAzNzAgMCAwIDAgMCA1NTYgNzc4IDEwMDAgMzY1IDAgMCAwIDAgMCA4ODkgMCAwIDAgMjc4IDAgMCAyMjIgNjExIDk0NCA2MTFdPj4KZW5kb2JqCjEzIDAgb2JqCjw8L1R5cGUvRm9udC9CYXNlRm9udC9IZWx2ZXRpY2EtQm9sZC9TdWJ0eXBlL1R5cGUxL0ZvbnREZXNjcmlwdG9yIDE1IDAgUi9FbmNvZGluZyAxNiAwIFIvRmlyc3RDaGFyIDEvTGFzdENoYXIgMjUxL1dpZHRoc1s2MTEgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMjc4IDMzMyA0NzQgNTU2IDU1NiA4ODkgNzIyIDI3OCAzMzMgMzMzIDM4OSA1ODQgMjc4IDMzMyAyNzggMjc4IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiA1NTYgNTU2IDU1NiAzMzMgMzMzIDU4NCA1ODQgNTg0IDYxMSA5NzUgNzIyIDcyMiA3MjIgNzIyIDY2NyA2MTEgNzc4IDcyMiAyNzggNTU2IDcyMiA2MTEgODMzIDcyMiA3NzggNjY3IDc3OCA3MjIgNjY3IDYxMSA3MjIgNjY3IDk0NCA2NjcgNjY3IDYxMSAzMzMgMjc4IDMzMyA1ODQgNTU2IDI3OCA1NTYgNjExIDU1NiA2MTEgNTU2IDMzMyA2MTEgNjExIDI3OCAyNzggNTU2IDI3OCA4ODkgNjExIDYxMSA2MTEgNjExIDM4OSA1NTYgMzMzIDYxMSA1NTYgNzc4IDU1NiA1NTYgNTAwIDM4OSAyODAgMzg5IDU4NCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDMzMyA1NTYgNTU2IDE2NyA1NTYgNTU2IDU1NiA1NTYgMjM4IDUwMCA1NTYgMzMzIDMzMyA2MTEgNjExIDAgNTU2IDU1NiA1NTYgMjc4IDAgNTU2IDM1MCAyNzggNTAwIDUwMCA1NTYgMTAwMCAxMDAwIDAgNjExIDAgMzMzIDMzMyAzMzMgMzMzIDMzMyAzMzMgMzMzIDMzMyAwIDMzMyAzMzMgMCAzMzMgMzMzIDMzMyAxMDAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMTAwMCAwIDM3MCAwIDAgMCAwIDYxMSA3NzggMTAwMCAzNjUgMCAwIDAgMCAwIDg4OSAwIDAgMCAyNzggMCAwIDI3OCA2MTEgOTQ0IDYxMV0+PgplbmRvYmoKMTQgMCBvYmoKPDwvVHlwZS9Gb250RGVzY3JpcHRvci9Gb250TmFtZS9UaW1lcy1Sb21hbi9GbGFncyAzNC9Gb250QkJveFstMTY4IC0yMTggMTAwMCA4OThdL0l0YWxpY0FuZ2xlIDAvQXNjZW50IDY4My9EZXNjZW50IC0yMTcvQ2FwSGVpZ2h0IDY2Mi9YSGVpZ2h0IDQ1MC9TdGVtViA4ND4+CmVuZG9iagoxNSAwIG9iago8PC9UeXBlL0ZvbnREZXNjcmlwdG9yL0ZvbnROYW1lL0hlbHZldGljYS1Cb2xkL0ZsYWdzIDMyL0ZvbnRCQm94Wy0xNzAgLTIyOCAxMDAzIDk2Ml0vSXRhbGljQW5nbGUgMC9Bc2NlbnQgNzE4L0Rlc2NlbnQgLTIwNy9DYXBIZWlnaHQgNzE4L1hIZWlnaHQgNTIzL1N0ZW1WIDE0MD4+CmVuZG9iagoxNiAwIG9iago8PC9UeXBlL0VuY29kaW5nL0RpZmZlcmVuY2VzWzEvb2FjdXRlXT4+CmVuZG9iagoxNyAwIG9iago8PC9UeXBlL0ZvbnREZXNjcmlwdG9yL0ZvbnROYW1lL0hlbHZldGljYS9GbGFncyAzMi9Gb250QkJveFstMTY2IC0yMjUgMTAwMCA5MzFdL0l0YWxpY0FuZ2xlIDAvQXNjZW50IDcxOC9EZXNjZW50IC0yMDcvQ2FwSGVpZ2h0IDcxOC9YSGVpZ2h0IDUyMy9TdGVtViA4OD4+CmVuZG9iagp4cmVmCjAgMTgKMDAwMDAwMDAwMCA2NTUzNSBmDQowMDAwMDAwMDE1IDAwMDAwIG4NCjAwMDAwMDAwOTkgMDAwMDAgbg0KMDAwMDAwMDE1MCAwMDAwMCBuDQowMDAwMDAwMzE3IDAwMDAwIG4NCjAwMDAwMDAzNDkgMDAwMDAgbg0KMDAwMDAwMDUzNCAwMDAwMCBuDQowMDAwMDAxNTEwIDAwMDAwIG4NCjAwMDAwMDE2NzYgMDAwMDAgbg0KMDAwMDAwMjk5MCAwMDAwMCBuDQowMDAwMDAzMDMxIDAwMDAwIG4NCjAwMDAwMDM4OTQgMDAwMDAgbg0KMDAwMDAwMzk1NSAwMDAwMCBuDQowMDAwMDA0ODE5IDAwMDAwIG4NCjAwMDAwMDU3NjYgMDAwMDAgbg0KMDAwMDAwNTkzOSAwMDAwMCBuDQowMDAwMDA2MTE2IDAwMDAwIG4NCjAwMDAwMDYxNzMgMDAwMDAgbg0KdHJhaWxlcgo8PC9Sb290IDEgMCBSL0luZm8gMyAwIFIvSURbPDVmM2YxMjgzMDAwMDFlOGM5ZmVlYzRkNmM5NmUxMzY2Pjw1ZjNmMTI4MzAwMDAxZThjOWZlZWM0ZDZjOTZlMTM2Nj5dL1NpemUgMTg+PgpzdGFydHhyZWYKNjM0NAolJUVPRgo=\",\r\n \"xml\": \"PG5vdGU+CiAgPGZyb20+TWVnYW48L2Zyb20+CiAgPHRvPkdyYW50PC90bz4KICA8aGVhZGluZz5SZW1pbmRlcjwvaGVhZGluZz4KICA8Ym9keT5Eb24ndCBmb3JnZXQgdG8gdXBkYXRlIHRoZSB3ZWJzaXRlIHRvbW9ycm93LjwvYm9keT4KPC9ub3RlPg==\"\r\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1130&deploy=1",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1130"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1132,GET - Devoluciones",
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "tokenSecret",
+							"value": "7d221769389886ef27438171797d0ad7597ed0016e7ea1144638eac3e68b34f7",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "01def94412e672edf37fb5cb4c38ecf84407b96152c47d43beff0b7297acd57d",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "e18cbe8992da126f59524a447cce8c7d0d22373f3e4b2e147637a1f735fc525d",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "9c2eea404d350abbc1a5e3c6ac88776e946ed514e15179f2d60e979993db7a6c",
+							"type": "string"
+						},
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA256",
+							"type": "string"
+						},
+						{
+							"key": "realm",
+							"value": "5533458_SB1",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1132&deploy=1&id=159747",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1132"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "159747"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1135 - Direcciones cliente",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "tokenSecret",
+							"value": "7d221769389886ef27438171797d0ad7597ed0016e7ea1144638eac3e68b34f7",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "01def94412e672edf37fb5cb4c38ecf84407b96152c47d43beff0b7297acd57d",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "e18cbe8992da126f59524a447cce8c7d0d22373f3e4b2e147637a1f735fc525d",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "9c2eea404d350abbc1a5e3c6ac88776e946ed514e15179f2d60e979993db7a6c",
+							"type": "string"
+						},
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA256",
+							"type": "string"
+						},
+						{
+							"key": "realm",
+							"value": "5533458_SB1",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1135&deploy=1&internalid=29578",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1135"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "internalid",
+							"value": "29578"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1136 - Credito Disponible cliente",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "tokenSecret",
+							"value": "7d221769389886ef27438171797d0ad7597ed0016e7ea1144638eac3e68b34f7",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "01def94412e672edf37fb5cb4c38ecf84407b96152c47d43beff0b7297acd57d",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "e18cbe8992da126f59524a447cce8c7d0d22373f3e4b2e147637a1f735fc525d",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "9c2eea404d350abbc1a5e3c6ac88776e946ed514e15179f2d60e979993db7a6c",
+							"type": "string"
+						},
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA256",
+							"type": "string"
+						},
+						{
+							"key": "realm",
+							"value": "5533458_SB1",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1136&deploy=1&internalid=31539",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1136"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "internalid",
+							"value": "31539"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1131,POST - CREACIÓN DE NOTA DE CRÉDITO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"invoiceId\": 152842,\r\n    \"date\": \"10/18/2021\",\r\n    \"items\": [\r\n            {\r\n            \"itemId\": \"37971\",\r\n            \"quantity\": \"1\",\r\n            \"amount\": \"13.62\",\r\n            \"taxamount\": \"2.18\",\r\n            \"grossamt\": \"29.42\"\r\n            }\r\n        ]\r\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?deploy=1&script=1131",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "script",
+							"value": "1131"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1142,POST -  TEST",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n}"
+				},
+				"url": {
+					"raw": "https://5533458-sb1.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1143&deploy=1&id=194962",
+					"protocol": "https",
+					"host": [
+						"5533458-sb1",
+						"restlets",
+						"api",
+						"netsuite",
+						"com"
+					],
+					"path": [
+						"app",
+						"site",
+						"hosting",
+						"restlet.nl"
+					],
+					"query": [
+						{
+							"key": "script",
+							"value": "1143"
+						},
+						{
+							"key": "deploy",
+							"value": "1"
+						},
+						{
+							"key": "id",
+							"value": "194962"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth1",
+		"oauth1": [
+			{
+				"key": "realm",
+				"value": "5533458_SB1",
+				"type": "string"
+			},
+			{
+				"key": "addParamsToHeader",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "tokenSecret",
+				"value": "604055ca5f8b8890327e16319e308fda9d084a8cd4698202549293c8e2481c10",
+				"type": "string"
+			},
+			{
+				"key": "token",
+				"value": "c6f70306bbd1ae187a1e7b0b51fee439b31a8c2b6c61d20d36a23dbdf3b7d489",
+				"type": "string"
+			},
+			{
+				"key": "consumerSecret",
+				"value": "ad1d4faed5c6641e633c97d8590bac481f923fd5005c8bc25d28bcc70d91206c",
+				"type": "string"
+			},
+			{
+				"key": "consumerKey",
+				"value": "f9f13347e9a58195916d5a9f512db9752c55f613a0f2220a98c3f7da6ca240c3",
+				"type": "string"
+			},
+			{
+				"key": "signatureMethod",
+				"value": "HMAC-SHA256",
+				"type": "string"
+			},
+			{
+				"key": "version",
+				"value": "1.0",
+				"type": "string"
+			},
+			{
+				"key": "addEmptyParamsToSign",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
