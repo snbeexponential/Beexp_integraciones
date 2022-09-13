@@ -3,13 +3,16 @@
  * @NScriptType MapReduceScript
  * @NAmdConfig ../excel_module/sk_sc_excel_conf.json
  */
-define(['N/email', 'N/file', 'N/record',"xlsx",'N/runtime'],
+define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
     /**
  * @param{email} email
  * @param{file} file
  * @param{record} record
  */
-    (email, file, record,XLSX,runtime) => {
+    (email, file, record,search,XLSX,runtime) => {
+
+        
+
         /**
          * Defines the function that is executed at the beginning of the map/reduce process and generates the input data.
          * @param {Object} inputContext
@@ -22,6 +25,8 @@ define(['N/email', 'N/file', 'N/record',"xlsx",'N/runtime'],
          * @returns {Array|Object|Search|ObjectRef|File|Query} The input data to use in the map/reduce process
          * @since 2015.2
          */
+        //Top variables modificado por saul navarro el 12/09/22
+        let journalid
 
         const getInputData = (inputContext) => {
 
@@ -113,10 +118,12 @@ define(['N/email', 'N/file', 'N/record',"xlsx",'N/runtime'],
 
         const map = (mapContext) => {
             var datos=JSON.parse(mapContext.value)
-        
+            
 
-
-
+            log.debug({
+                title: "En el map1",
+                details: datos
+            })
             let externalid=datos.cabecera.externalid
             let tranId=datos.cabecera.tranId
             let subsidiary=datos.cabecera.subsidiary
@@ -131,93 +138,140 @@ define(['N/email', 'N/file', 'N/record',"xlsx",'N/runtime'],
                 details:tranDate
             })
 
-            if (externalid!= null && externalid!= '') {
-                
-            }
-
-
-            var invObj=record.create({
-                type: record.Type.JOURNAL_ENTRY,
-                isDynamic: true
-            }).setValue({
-                fieldId:"externalid",
-                value:externalid
-            }).setValue({
-                fieldId:"tranId",
-                value:tranId
-            }).setValue({
-                fieldId:"subsidiary",
-                value:subsidiary
-            }).setValue({
-                fieldId:"currency",
-                value:currency
-            }).setValue({ 
-                fieldId:"exchangerate",
-                value:exchangerate
-            }).setValue({
-                fieldId:"postingperiod",
-                value:postingperiod
-            }).setValue({
-                fieldId:"trandate",
-                value:new Date(tranDate)
-            }).setValue({
-                fieldId:"custbody_fam_jrn_reversal_date", 
-                value:new Date(tranDate)
-            }).setValue({
-                fieldId:"c",
-                value:isDeferred
-            })
-
-            datos.lines.forEach(line => {
-
-                let journalItemLine_accountRef= line.journalItemLine_accountRef
-                let journalItemLine_debitAmount= line.journalItemLine_debitAmount
-                let journalItemLine_creditAmount= line.journalItemLine_creditAmount
-                let journalItemLine_memo= line.journalItemLine_memo
-                let journalItemLine_entityRef= line.journalItemLine_entityRef
-                let cseg_skan_contrato= line.cseg_skan_contrato
-                let journalItemLine_departmentRef= line.journalItemLine_departmentRef
-                let journalItemLine_classRef= line.journalItemLine_classRef
-                let journalItemLine_locationRef= line.journalItemLine_locationRef
-                let journalItemLine_taxCodeRef= line.journalItemLine_taxCodeRef
-                let journalItemLine_taxCodeAmount= line.journalItemLine_taxCodeAmount
-                invObj.setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"account",
-                    value:journalItemLine_accountRef 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"debit",
-                    value:journalItemLine_debitAmount 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"credit",
-                    value:journalItemLine_creditAmount 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"memo",
-                    value:journalItemLine_memo 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"custcol_skan_contrato2",
-                    value:cseg_skan_contrato 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"department",
-                    value:journalItemLine_departmentRef 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"class",
-                    value:journalItemLine_classRef 
-                }).setCurrentSublistValue({
-                    sublistId:"line",
-                    fieldId:"location",
-                    value:journalItemLine_locationRef 
-                }).commitLine({
-                    sublistId: "line",
-                })
+            if (externalid != '' && externalid != null) {
+                //log.debug("El campo external id dentro",externalid)
+               /*  let externalidparseado = externalid.toString();
+                log.debug("Comienza la bùsqueda den external id",externalidparseado) */
+        try {
+            var transactionSearchObj = search.create({
+                type: "transaction",
+                filters:
+                    [
+                        ["recordtype", "is", record.Type.JOURNAL_ENTRY],
+                        "AND",
+                        ["mainline", "is", "T"],
+                        "AND",
+                        ["externalid", "is", externalid]
+                    ],
+                columns:
+                    [
+                        search_invoice = search.createColumn({ name: "internalid", label: "Internal ID" })
+                    ]
             });
+            var searchResultCount = transactionSearchObj.runPaged().count;
+            log.debug("transactionSearchObj result count", searchResultCount);
+                if (searchResultCount>0) {
+                        transactionSearchObj.run().each(function (result) {
+                        journalid = result.getValue(search_invoice);
+                        return true;
+                    });
+                } else {
+                    journalid=''
+                }
+        } catch (error) {
+            log.debug("Ta fallando", error.message)
+        }
+             
+            } else {
+                log.debug( 'El campo externalid es obligatorio.')
+            }
+            log.debug("Antes de crear o cargar el journal")
 
+ try {
+    if (journalid == '') {
+        var invObj=record.create({
+            type: record.Type.JOURNAL_ENTRY,
+            isDynamic: true
+        })
+        invObj.setValue({
+            fieldId:"externalid",
+            value:externalid
+        }).setValue({
+            fieldId:"subsidiary",
+            value:subsidiary
+        })
+      } else {
+        var invObj=record.load({
+            type: record.Type.JOURNAL_ENTRY,
+            id: journalid,
+            isDynamic: true,
+        })
+      }
+        invObj.setValue({
+            fieldId:"tranId",
+            value:tranId
+        }).setValue({
+            fieldId:"currency",
+            value:currency
+        }).setValue({ 
+            fieldId:"exchangerate",
+            value:exchangerate
+        }).setValue({
+            fieldId:"postingperiod",
+            value:postingperiod
+        }).setValue({
+            fieldId:"trandate",
+            value:new Date(tranDate)
+        }).setValue({
+            fieldId:"custbody_fam_jrn_reversal_date", 
+            value:new Date(tranDate)
+        }).setValue({
+            fieldId:"c",
+            value:isDeferred
+        })
+
+        datos.lines.forEach(line => {
+
+            let journalItemLine_accountRef= line.journalItemLine_accountRef
+            let journalItemLine_debitAmount= line.journalItemLine_debitAmount
+            let journalItemLine_creditAmount= line.journalItemLine_creditAmount
+            let journalItemLine_memo= line.journalItemLine_memo
+            let journalItemLine_entityRef= line.journalItemLine_entityRef
+            let cseg_skan_contrato= line.cseg_skan_contrato
+            let journalItemLine_departmentRef= line.journalItemLine_departmentRef
+            let journalItemLine_classRef= line.journalItemLine_classRef
+            let journalItemLine_locationRef= line.journalItemLine_locationRef
+            let journalItemLine_taxCodeRef= line.journalItemLine_taxCodeRef
+            let journalItemLine_taxCodeAmount= line.journalItemLine_taxCodeAmount
+            invObj.setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"account",
+                value:journalItemLine_accountRef 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"debit",
+                value:journalItemLine_debitAmount 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"credit",
+                value:journalItemLine_creditAmount 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"memo",
+                value:journalItemLine_memo 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"custcol_skan_contrato2",
+                value:cseg_skan_contrato 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"department",
+                value:journalItemLine_departmentRef 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"class",
+                value:journalItemLine_classRef 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"location",
+                value:journalItemLine_locationRef 
+            }).commitLine({
+                sublistId: "line",
+            })
+        });
+ } catch (error) {
+    log.debug("Error en la carga/actualización",error.message)
+ }
 
            try {
             let idObj=invObj.save({
@@ -270,8 +324,7 @@ define(['N/email', 'N/file', 'N/record',"xlsx",'N/runtime'],
          * @since 2015.2
          */
         const summarize = (summaryContext) => {
-            const contentfromget = JSON.parse(runtime.getCurrentScript().getParameter({ name: 'custscript_sk_mr_idvalueinv' }));
-            log.debug("contentfromget",contentfromget)
+            const contentfromget = JSON.parse(runtime.getCurrentScript().getParameter({ name: 'custscript_sk_mr_idvalue' }));
             fileId=contentfromget.idxls
             folderId=contentfromget.folderselec
     try {
