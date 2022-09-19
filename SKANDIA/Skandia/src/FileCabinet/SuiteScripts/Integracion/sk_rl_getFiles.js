@@ -50,11 +50,30 @@ inversiones{
 //Iniciamos variables, tomamos la información del JSON
         var dynamicid2 = Object.values(params);        
         var name = dynamicid2[0];        
-        var contenido = dynamicid2[1];        
         var detailname=name.split("_")
        
         var ejecutamos=null
         var folderselec=null
+
+        if (dynamicid2[1]) {
+            log.debug(true)
+        } else {
+            log.debug(false)
+        }
+
+        if (dynamicid2[1]===""||dynamicid2[1]===''||dynamicid2[1]===null) {
+            response.code=400
+            response.message="No se encuentra información en el campo del documento"        
+            response.result="El contenido en el campo XLS no se encuentra"
+            return response       
+        } else if(dynamicid2[1].length%4!=0){
+            response.code=400
+            response.message="El contenido base64 proporcionado es erróneo: la longitud de la cadena no es multiplo de 4"
+            return response
+        }else{   
+            var contenido = dynamicid2[1];
+        }
+
 
         if (detailname[0]=='cuentas'||detailname[0]=='inversiones') {
             detailname[0]=='cuentas'?folderselec=folders.cuentas:folderselec=folders.inversiones
@@ -79,18 +98,45 @@ inversiones{
             return response
         }
         
-        
-        
+        try {
+            
+        } catch (error) {
+            response.code=400
+            response.message="No se encontró el tipo de transacción que se procesará en el nombre del archivo, los valores pueden ser:  fac=Facturas | ed = Entradas de diario"
+            response.result="El valor "+detailname[1]+" no es válido"
+            return response
+        }        
                 try {
                     var id_obtenido=guardar_file(name,contenido,folderselec)
                     response.code=200
                     response.result="Id de documento: "+id_obtenido
+
                 } catch (error) {
                     response.code=400
                     response.message="No se pudo cargar el archivo correctamente, favor de revisar el formato y nomenclatura"        
                     response.result="Falle en: "+ error.message
                     return response
                 }
+/*                 try {
+                    var documentcorrect=file.load({
+                        id: id_obtenido
+                      });
+                      log.debug("documentcorrect dato jalado",documentcorrect)
+                      var workbook = XLSX.read(documentcorrect.getContents(), {type: 'base64'});
+
+                      var sheet = workbook.Sheets[workbook.SheetNames[sn]];
+                      
+                      log.debug({
+                        title: "Carga con error",
+                        details:"el dato"+workbook
+                    })
+                } catch (error) {
+                    log.debug({
+                        title: "Hay error",
+                        details: error.message
+                    })
+                } */
+
                 try {
                     iniciar_tarea(id_obtenido,folderselec,ejecutamos)
                     response.message="El archivo fue cargado, el procesamiento se está ejecutando"        
@@ -123,7 +169,7 @@ function guardar_file(nombrefile,contenido,folder) {
             folderselec
         }
 
-        if (trantype=="ed") {
+/*         if (trantype=="ed") {
             task.create({
                 taskType: task.TaskType.MAP_REDUCE,
                 scriptId: 'customscript_sk_mr_procesexcel',
@@ -137,7 +183,7 @@ function guardar_file(nombrefile,contenido,folder) {
                 deploymentId: 'customdeploy_sk_mr_processinvoice',
                 params:{ 'custscript_sk_mr_idvalueinv': JSON.stringify(datostomr)}
             }).submit();
-        }
+        } */
     }
 
      return {
