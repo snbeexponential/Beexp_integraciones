@@ -516,6 +516,7 @@ try {
         
                         log.debug('ITEMS LENGTH', datos.lines.length);
                         let element2copy = datos.lines.slice();
+                        
                         datos.lines.forEach(function (line, index) {
                             log.debug('primero array posicion', index);
                             let temLine_item = line.itemLine_item
@@ -629,6 +630,7 @@ try {
                             }
         
                             //#endregion
+
                             let itemcount = invObj.getLineCount({
                                 sublistId: 'item'
                             });
