@@ -27,6 +27,17 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
          */
         //Top variables modificado por saul navarro el 12/09/22
         let journalid
+        let subsidiary_id
+        let currency_id
+        let postingperiod_id
+
+        let entity_id
+        let contrato_id
+        let department_id
+        let class_id
+        let location_id
+
+
 
         const getInputData = (inputContext) => {
 
@@ -70,8 +81,9 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
                     journalItemLine_debitAmount:element.journalItemLine_debitAmount || null,
                     journalItemLine_creditAmount:element.journalItemLine_creditAmount || null,
                     journalItemLine_memo:element.journalItemLine_memo || null,
+                    custcol_skan_nota2:element.custcol_skan_nota2 || null,
                     journalItemLine_entityRef:element.journalItemLine_entityRef || null,
-                    cseg_skan_contrato:element.cseg_skan_contrato || null,
+                    cseg_skan_contrato:element.cseg_skan_contrato2 || null,
                     journalItemLine_departmentRef:element.journalItemLine_departmentRef || null,
                     journalItemLine_classRef:element.journalItemLine_classRef || null,
                     journalItemLine_locationRef:element.journalItemLine_locationRef || null,
@@ -87,8 +99,9 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
                     journalItemLine_debitAmount:element.journalItemLine_debitAmount || null,
                     journalItemLine_creditAmount:element.journalItemLine_creditAmount || null,
                     journalItemLine_memo:element.journalItemLine_memo || null,
+                    custcol_skan_nota2:element.custcol_skan_nota2 || null,
                     journalItemLine_entityRef:element.journalItemLine_entityRef || null,
-                    cseg_skan_contrato:element.cseg_skan_contrato || null,
+                    cseg_skan_contrato:element.cseg_skan_contrato2 || null,
                     journalItemLine_departmentRef:element.journalItemLine_departmentRef || null,
                     journalItemLine_classRef:element.journalItemLine_classRef || null,
                     journalItemLine_locationRef:element.journalItemLine_locationRef || null,
@@ -116,32 +129,98 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
          * @since 2015.2
          */
 
-        const map = (mapContext) => {
+         const map = (mapContext) => {
             var datos=JSON.parse(mapContext.value)
+           
+           //#region Cabecera
+            let externalid=datos.cabecera.externalid //hecha la busqueda del external id
+            let tranId=datos.cabecera.tranId //No se usa el tranid
+            let subsidiary_search="Parent Company : "+datos.cabecera.subsidiary //Cadena para buscar subsidiary
+            //#region  C .- Subsidiary
+            try {
+               var subsidiarySearchObj = search.create({
+                   type: "subsidiary",
+                   filters:
+                   [
+                      ["name","is",subsidiary_search]
+                   ],
+                   columns:
+                   [
+                    search_idsub=search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+                });
+                var searchResultCount = subsidiarySearchObj.runPaged().count;
+                subsidiarySearchObj.run().each(function(result){
+                   subsidiary_id=result.getValue(search_idsub)
+                   return true;
+                });
+            } catch (error) {
+               log.debug("Error en la busqueda subsidiaria", error.message)
+            }
+            //#endregion 
             
 
-            log.debug({
-                title: "En el map1",
-                details: datos
-            })
-            let externalid=datos.cabecera.externalid
-            let tranId=datos.cabecera.tranId
-            let subsidiary=datos.cabecera.subsidiary
-            let currency=datos.cabecera.currency 
-            let exchangerate=datos.cabecera.exchangerate
+            //#endregion 
+            //#region E.- Posting period
             let postingperiod=datos.cabecera.postingperiod
-            let tranDate=transformdate(datos.cabecera.tranDate)
-            let reversalDate=transformdate(datos.cabecera.reversalDate)
-            let isDeferred=datos.cabecera.isDeferred=="true"?true:false
-            log.debug({
-                title: "En el mapITA2",
-                details:tranDate
-            })
+            try {
+             
+               var accountingperiodSearchObj = search.create({
+                   type: "accountingperiod",
+                   filters:
+                   [
+                      ["periodname","is",postingperiod]
+                   ],
+                   columns:
+                   [
+                      search_postp= search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+                });
+                var searchResultCount = accountingperiodSearchObj.runPaged().count;
+                accountingperiodSearchObj.run().each(function(result){
+                   postingperiod_id = result.getValue(search_postp)
+                   return true;
+                });
+            } catch (error) {
+               postingperiod_id=null
+               log.debug("Error en la busqueda posting period", error.message)
+            }
+            //#endregion
 
+            let currency=datos.cabecera.currency
+            //#region Currency
+            try {
+                var currencySearchObj = search.create({
+                    type: "currency",
+                    filters:
+                    [
+                       ["name","is",currency]
+                    ],
+                    columns:
+                    [
+                       search.createColumn({
+                          name: "name",
+                          sort: search.Sort.ASC,
+                          label: "Name"
+                       }),
+                    search_currency=search.createColumn({name: "internalid", label: "Internal ID"})
+                    ]
+                 });
+                 var searchResultCount = currencySearchObj.runPaged().count;
+                 log.debug("currencySearchObj result count",searchResultCount);
+                 currencySearchObj.run().each(function(result){
+                     currency_id = result.getValue(search_currency)
+                     return true;
+                    });
+            } catch (error) {
+                log.debug("fallo en busqueda de la moneda", error.message);
+            }
+        let tranDate=transformdate(datos.cabecera.tranDate)
+        let reversalDate=transformdate(datos.cabecera.reversalDate)
+        let exchangerate=datos.cabecera.exchangerate
+        let isDeferred=datos.cabecera.isDeferred=="true"?true:false
+           //#endregion    
             if (externalid != '' && externalid != null) {
-                //log.debug("El campo external id dentro",externalid)
-               /*  let externalidparseado = externalid.toString();
-                log.debug("Comienza la bùsqueda den external id",externalidparseado) */
         try {
             var transactionSearchObj = search.create({
                 type: "transaction",
@@ -159,7 +238,6 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
                     ]
             });
             var searchResultCount = transactionSearchObj.runPaged().count;
-            log.debug("transactionSearchObj result count", searchResultCount);
                 if (searchResultCount>0) {
                         transactionSearchObj.run().each(function (result) {
                         journalid = result.getValue(search_invoice);
@@ -175,9 +253,8 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
             } else {
                 log.debug( 'El campo externalid es obligatorio.')
             }
-            log.debug("Antes de crear o cargar el journal")
-
- try {
+            //#endregion
+   try {
     if (journalid == '') {
         var invObj=record.create({
             type: record.Type.JOURNAL_ENTRY,
@@ -188,7 +265,7 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
             value:externalid
         }).setValue({
             fieldId:"subsidiary",
-            value:subsidiary
+            value:subsidiary_id
         })
       } else {
         var invObj=record.load({
@@ -197,47 +274,423 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
             isDynamic: true,
         })
       }
-        invObj.setValue({
-            fieldId:"tranId",
-            value:tranId
-        }).setValue({
-            fieldId:"currency",
-            value:currency
-        }).setValue({ 
-            fieldId:"exchangerate",
-            value:exchangerate
-        }).setValue({
-            fieldId:"postingperiod",
-            value:postingperiod
-        }).setValue({
-            fieldId:"trandate",
-            value:new Date(tranDate)
-        }).setValue({
-            fieldId:"custbody_fam_jrn_reversal_date", 
-            value:new Date(tranDate)
-        }).setValue({
-            fieldId:"c",
-            value:isDeferred
-        })
 
-        datos.lines.forEach(line => {
-
+        invObj.setValue({fieldId:"tranId",value:tranId})
+        invObj.setValue({fieldId:"currency",value:currency_id})
+        invObj.setValue({fieldId:"exchangerate",value:parseFloat(exchangerate)})
+        invObj.setValue({fieldId:"postingperiod",value:postingperiod_id})
+        invObj.setValue({fieldId:"trandate",value:tranDate})
+   } catch (error) {
+    log.debug("falla en este bloque",error.message)
+   }
+        
+      if (journalid=='') {
+       try {     
+           datos.lines.forEach(line => {
+               let journalItemLine_accountRef= line.journalItemLine_accountRef
+               let journalItemLine_debitAmount= line.journalItemLine_debitAmount
+               let journalItemLine_creditAmount= line.journalItemLine_creditAmount
+               let journalItemLine_memo= line.journalItemLine_memo
+               let journalItemLine_custcol_skan_nota2= line.custcol_skan_nota2
+               let journalItemLine_entityRef= line.journalItemLine_entityRef
+               let journalItemLine_custcol_skan_contrato2= line.cseg_skan_contrato
+               let journalItemLine_departmentRef= line.journalItemLine_departmentRef
+               let journalItemLine_classRef= line.journalItemLine_classRef
+               let journalItemLine_locationRef= line.journalItemLine_locationRef
+      
+               log.debug('Ya empieza la búsqueda a nivel línea ->comentario',journalItemLine_custcol_skan_contrato2)
+               //#region Busquedas nivel line
+      
+              //JIL ACCOUNT ID
+               try {
+                  var accountSearchObj = search.create({
+                      type: "account",
+                      filters:
+                      [
+                         ["displayname","contains",journalItemLine_accountRef]
+                      ],
+                      columns:
+                      [
+                      search_idacc=search.createColumn({name: "internalid", label: "Internal ID"})
+                      ]
+                   });
+                   var searchResultCount = accountSearchObj.runPaged().count;
+                   log.debug("accountSearchObj result count",searchResultCount);
+                   accountSearchObj.run().each(function(result){
+                      jil_account_id=result.getValue(search_idacc)
+                      return true;
+                   });
+               } catch (error) {
+                  jil_account_id=''
+                  log.debug("Error busqueda cuenta item",error.message)
+               }
+      
+      
+               try {
+                  var customerSearchObj = search.create({
+                      type: "customer",
+                      filters:
+                      [
+                         ["externalid","is",journalItemLine_entityRef]
+                      ],
+                      columns:
+                      [
+                         search_entity=search.createColumn({name: "internalid",label: "Internal ID"}),
+                      ]
+                   });
+                   var searchResultCount = customerSearchObj.runPaged().count;
+                   log.debug("customerSearchObj result count",searchResultCount);
+                   customerSearchObj.run().each(function(result){
+                      entity_id=result.getValue(search_entity)
+                      return true;
+                   });
+               } catch (error) {
+                  entity_id=''
+                  log.debug("Error recuperando id de cliente",)
+               }
+               try {
+                  var customrecord_skan_contratosSearchObj = search.create({
+                      type: "customrecord_skan_contratos",
+                      filters:
+                      [
+                         ["name","is",journalItemLine_custcol_skan_contrato2]
+                      ],
+                      columns:
+                      [
+                       search_contrato=  search.createColumn({name: "internalid", label: "Internal ID"}),
+      
+                      ]
+                   });
+                   var searchResultCount = customrecord_skan_contratosSearchObj.runPaged().count;
+                   customrecord_skan_contratosSearchObj.run().each(function(result){
+                      contrato_id=result.getValue(search_contrato)
+                      return true;
+                   });
+               } catch (error) {
+                  contrato_id=''
+                  log.debug("Error recuperando id de cliente",)
+               }
+      
+               //Department
+               try {
+                  var departmentSearchObj = search.create({
+                      type: "department",
+                      filters:
+                      [
+                         ["name","is",journalItemLine_departmentRef]
+                      ],
+                      columns:
+                      [
+                       search_depart= search.createColumn({name: "internalid", label: "Internal ID"})
+      
+                      ]
+                   });
+                   var searchResultCount = departmentSearchObj.runPaged().count;
+                   log.debug("departmentSearchObj result count",searchResultCount);
+                   departmentSearchObj.run().each(function(result){
+                      department_id=result.getValue(search_depart)
+                      return true;
+                   });
+                  
+               } catch (error) {
+                  department_id=''
+                  log.debug("fallo en busqueda del departamento",error.message);
+              }
+              
+              //Class
+              try {
+                  var classificationSearchObj = search.create({
+                      type: "classification",
+                      filters:
+                      [
+                          ["name","is",journalItemLine_classRef]
+                      ],
+                      columns:
+                      [
+                          search.createColumn({
+                              name: "name",
+                              sort: search.Sort.ASC,
+                              label: "Name"
+                          }),
+                          search_class= search.createColumn({name: "internalid", label: "Internal ID"})
+                      ]
+                  });
+                  var searchResultCount = classificationSearchObj.runPaged().count;
+                  log.debug("classificationSearchObj result count",searchResultCount);
+                  classificationSearchObj.run().each(function(result){
+                      class_id=result.getValue(search_class)
+                      
+                      return true;
+                  });
+                  
+              } catch (error) {
+                  class_id=''
+                  log.debug("fallo en busqueda de la clase",error.message);
+              }   
+              //Location
+              try {
+                  var locationSearchObj = search.create({
+                      type: "location",
+                      filters:
+                      [
+                          ["name","is",journalItemLine_locationRef]
+                      ],
+                      columns:
+                      [
+                       search_location=search.createColumn({name: "internalid", label: "Internal ID"})
+                      ]
+                  });
+                  var searchResultCount = locationSearchObj.runPaged().count;
+                  log.debug("locationSearchObj result count",searchResultCount);
+                  locationSearchObj.run().each(function(result){
+                      location_id= result.getValue(search_location)
+                      log.debug("location id",location_id);
+                      return true;
+                  });
+              } catch (error) {
+                  location_id= ''
+                  log.debug("fallo en busqueda de location",error.message);   
+              }
+               //#endregion
+               invObj.setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"account",
+                   value:jil_account_id
+               })
+               invObj.setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"debit",
+                value:journalItemLine_debitAmount 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"credit",
+                value:journalItemLine_creditAmount 
+            }).setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"memo",
+                   value:journalItemLine_memo 
+               }).setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"custcol_skan_nota2",
+                   value:journalItemLine_custcol_skan_nota2 
+               }).setCurrentSublistValue({
+                  sublistId:"line",
+                  fieldId:"entity",
+                  value:entity_id
+              }).setCurrentSublistValue({
+                  sublistId:"line",
+                  fieldId:"custcol_skan_contrato2",
+                  value:contrato_id
+              }).setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"department",
+                   value:department_id 
+               }).setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"class",
+                   value:class_id 
+               }).setCurrentSublistValue({
+                   sublistId:"line",
+                   fieldId:"location",
+                   value:location_id
+               }).commitLine({
+                   sublistId: "line",
+               })
+               log.debug('commit','commit realizado en la creación')
+           });
+      } catch (error) {
+       log.debug("Error en la creación",error.message)
+   }
+   } else {
+       try {
+           datos.lines.forEach(function (line, index) {
+               log.debug("Posicion en array",index)
             let journalItemLine_accountRef= line.journalItemLine_accountRef
             let journalItemLine_debitAmount= line.journalItemLine_debitAmount
             let journalItemLine_creditAmount= line.journalItemLine_creditAmount
             let journalItemLine_memo= line.journalItemLine_memo
+            let journalItemLine_custcol_skan_nota2= line.custcol_skan_nota2
             let journalItemLine_entityRef= line.journalItemLine_entityRef
-            let cseg_skan_contrato= line.cseg_skan_contrato
+            let journalItemLine_custcol_skan_contrato2= line.cseg_skan_contrato
             let journalItemLine_departmentRef= line.journalItemLine_departmentRef
             let journalItemLine_classRef= line.journalItemLine_classRef
             let journalItemLine_locationRef= line.journalItemLine_locationRef
-            let journalItemLine_taxCodeRef= line.journalItemLine_taxCodeRef
-            let journalItemLine_taxCodeAmount= line.journalItemLine_taxCodeAmount
+   
+            log.debug('Ya empieza la búsqueda a nivel línea ->comentario',journalItemLine_custcol_skan_contrato2)
+            //#region Busquedas nivel line
+   
+           //JIL ACCOUNT ID
+            try {
+               var accountSearchObj = search.create({
+                   type: "account",
+                   filters:
+                   [
+                      ["displayname","contains",journalItemLine_accountRef]
+                   ],
+                   columns:
+                   [
+                   search_idacc=search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+                });
+                var searchResultCount = accountSearchObj.runPaged().count;
+                log.debug("accountSearchObj result count",searchResultCount);
+                accountSearchObj.run().each(function(result){
+                   jil_account_id=result.getValue(search_idacc)
+                   return true;
+                });
+            } catch (error) {
+               jil_account_id=''
+               log.debug("Error busqueda cuenta item",error.message)
+            }
+   
+   
+            try {
+               var customerSearchObj = search.create({
+                   type: "customer",
+                   filters:
+                   [
+                      ["externalid","is",journalItemLine_entityRef]
+                   ],
+                   columns:
+                   [
+                      search_entity=search.createColumn({name: "internalid",label: "Internal ID"}),
+                   ]
+                });
+                var searchResultCount = customerSearchObj.runPaged().count;
+                log.debug("customerSearchObj result count",searchResultCount);
+                customerSearchObj.run().each(function(result){
+                   entity_id=result.getValue(search_entity)
+                   return true;
+                });
+            } catch (error) {
+               entity_id=''
+               log.debug("Error recuperando id de cliente",)
+            }
+            try {
+               var customrecord_skan_contratosSearchObj = search.create({
+                   type: "customrecord_skan_contratos",
+                   filters:
+                   [
+                      ["name","is",journalItemLine_custcol_skan_contrato2]
+                   ],
+                   columns:
+                   [
+                    search_contrato=  search.createColumn({name: "internalid", label: "Internal ID"}),
+   
+                   ]
+                });
+                var searchResultCount = customrecord_skan_contratosSearchObj.runPaged().count;
+                customrecord_skan_contratosSearchObj.run().each(function(result){
+                   contrato_id=result.getValue(search_contrato)
+                   return true;
+                });
+            } catch (error) {
+               contrato_id=''
+               log.debug("Error recuperando id de cliente",)
+            }
+   
+            //Department
+            try {
+               if (journalItemLine_departmentRef) {
+               var departmentSearchObj = search.create({
+                   type: "department",
+                   filters:
+                   [
+                      ["name","is",journalItemLine_departmentRef]
+                   ],
+                   columns:
+                   [
+                    search_depart= search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+                });
+                var searchResultCount = departmentSearchObj.runPaged().count;
+                log.debug("departmentSearchObj result count",searchResultCount);
+                departmentSearchObj.run().each(function(result){
+                   department_id=result.getValue(search_depart)
+                   return true;
+                });   
+               }
+               else{
+                   department_id=''
+               }
+               
+            } catch (error) {
+               department_id=''
+               log.debug("fallo en busqueda del departamento",error.message);
+           }
+           
+           //Class
+           try {
+               var classificationSearchObj = search.create({
+                   type: "classification",
+                   filters:
+                   [
+                       ["name","is",journalItemLine_classRef]
+                   ],
+                   columns:
+                   [
+                       search.createColumn({
+                           name: "name",
+                           sort: search.Sort.ASC,
+                           label: "Name"
+                       }),
+                       search_class= search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+               });
+               var searchResultCount = classificationSearchObj.runPaged().count;
+               log.debug("classificationSearchObj result count",searchResultCount);
+               classificationSearchObj.run().each(function(result){
+                   class_id=result.getValue(search_class)
+                   
+                   return true;
+               });
+               
+           } catch (error) {
+               class_id=''
+               log.debug("fallo en busqueda de la clase",error.message);
+           }   
+           //Location
+           try {
+               var locationSearchObj = search.create({
+                   type: "location",
+                   filters:
+                   [
+                       ["name","is",journalItemLine_locationRef]
+                   ],
+                   columns:
+                   [
+                    search_location=search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+               });
+               var searchResultCount = locationSearchObj.runPaged().count;
+               log.debug("locationSearchObj result count",searchResultCount);
+               locationSearchObj.run().each(function(result){
+                   location_id= result.getValue(search_location)
+                   return true;
+               });
+               
+               
+           } catch (error) {
+               location_id= ''
+               log.debug("fallo en busqueda de location",error.message);
+               
+           }
+            //#endregion
+            let itemcount = invObj.getLineCount({
+               sublistId: 'line'
+           });
+   
+           if (index < itemcount) {
+               invObj.selectLine({
+                   sublistId: 'line',
+                   line: index
+               })
             invObj.setCurrentSublistValue({
                 sublistId:"line",
                 fieldId:"account",
-                value:journalItemLine_accountRef 
-            }).setCurrentSublistValue({
+                value:jil_account_id
+            })
+            invObj.setCurrentSublistValue({
                 sublistId:"line",
                 fieldId:"debit",
                 value:journalItemLine_debitAmount 
@@ -251,39 +704,50 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
                 value:journalItemLine_memo 
             }).setCurrentSublistValue({
                 sublistId:"line",
-                fieldId:"custcol_skan_contrato2",
-                value:cseg_skan_contrato 
+                fieldId:"custcol_skan_nota2",
+                value:journalItemLine_custcol_skan_nota2 
             }).setCurrentSublistValue({
+               sublistId:"line",
+               fieldId:"entity",
+               value:entity_id
+           }).setCurrentSublistValue({
+               sublistId:"line",
+               fieldId:"custcol_skan_contrato2",
+               value:contrato_id
+           }).setCurrentSublistValue({
                 sublistId:"line",
                 fieldId:"department",
-                value:journalItemLine_departmentRef 
+                value:department_id 
             }).setCurrentSublistValue({
                 sublistId:"line",
                 fieldId:"class",
-                value:journalItemLine_classRef 
+                value:class_id 
             }).setCurrentSublistValue({
                 sublistId:"line",
                 fieldId:"location",
-                value:journalItemLine_locationRef 
+                value:location_id 
             }).commitLine({
                 sublistId: "line",
             })
+            log.debug('commit','commit realizado en actualización')
+           }
         });
- } catch (error) {
-    log.debug("Error en la carga/actualización",error.message)
- }
-
+           
+       } catch (error) {
+           log.debug("Error en la actualización",error.message)
+       }
+      }
+   
            try {
             let idObj=invObj.save({
                 ignoreMandatoryFields: true
             })
-            log.debug("Jala el journal",idObj)
+            log.debug("Se crea el journal",idObj)
            } catch (error) {
                log.debug("Falló la journal",error)
             
            }
         }
-
         /**
          * Defines the function that is executed when the reduce entry point is triggered. This entry point is triggered
          * automatically when the associated map stage is complete. This function is applied to each group in the provided context.
@@ -381,128 +845,14 @@ define(['N/email', 'N/file', 'N/record','N/search',"xlsx",'N/runtime'],
         return (Object.keys(value).length == 0) ? true : false;
       }
       function transformdate(vardate){
-        let a=vardate.slice(1,11)
+        /* let a=vardate.slice(1,11) */
+        let a=vardate
         var a1=a.split("/");
         var fecha=new Date(a1[1]+"/"+a1[0]+"/"+a1[2]);
         return fecha
      }
      
-     function createJournal(arrinv) {
-        var cabecera =[]
-        arrinv.forEach(element2 => {
-        let externalid=element2.cabecera.externalid
-        let tranId=element2.cabecera.tranId
-        let subsidiary=element2.cabecera.subsidiary
-        let currency=element2.cabecera.currency 
-        let exchangerate=element2.cabecera.exchangerate
-        let postingperiod=element2.cabecera.postingperiod
-        let tranDate=transformdate(element2.cabecera.tranDate)
-        let reversalDate=transformdate(element2.cabecera.reversalDate)
-        let isDeferred=element2.cabecera.isDeferred=="true"?true:false
 
-        log.debug("campos del heheheheh headaer",({
-        tranDate,
-        reversalDate
-        }))
-        /* log.debug("fECHAS2",new Date("15/10/2022")) <-- Esta fecha no es valida*/
-
-        var invObj=record.create({
-            type: record.Type.JOURNAL_ENTRY,
-            isDynamic: true
-        }).setValue({
-            fieldId:"externalid",
-            value:externalid
-        }).setValue({
-            fieldId:"tranId",
-            value:tranId
-        }).setValue({
-            fieldId:"subsidiary",
-            value:subsidiary
-        }).setValue({
-            fieldId:"currency",
-            value:currency
-        }).setValue({ 
-            fieldId:"exchangerate",
-            value:exchangerate
-        }).setValue({
-            fieldId:"postingperiod",
-            value:postingperiod
-        }).setValue({
-            fieldId:"trandate",
-            value:new Date(tranDate)
-        }).setValue({
-            fieldId:"custbody_fam_jrn_reversal_date", 
-            value:new Date(tranDate)
-        }).setValue({
-            fieldId:"c",
-            value:isDeferred
-        })
-
-        log.debug("Paso datos del headers")
-        element2.lines.forEach(line => {
-            
-            let journalItemLine_accountRef= line.journalItemLine_accountRef
-            let journalItemLine_debitAmount= line.journalItemLine_debitAmount
-            let journalItemLine_creditAmount= line.journalItemLine_creditAmount
-            let journalItemLine_memo= line.journalItemLine_memo
-            let journalItemLine_entityRef= line.journalItemLine_entityRef
-            let cseg_skan_contrato= line.cseg_skan_contrato
-            let journalItemLine_departmentRef= line.journalItemLine_departmentRef
-            let journalItemLine_classRef= line.journalItemLine_classRef
-            let journalItemLine_locationRef= line.journalItemLine_locationRef
-            let journalItemLine_taxCodeRef= line.journalItemLine_taxCodeRef
-            let journalItemLine_taxCodeAmount= line.journalItemLine_taxCodeAmount
-
-            invObj.setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"account",
-                value:journalItemLine_accountRef 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"debit",
-                value:journalItemLine_debitAmount 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"credit",
-                value:journalItemLine_creditAmount 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"memo",
-                value:journalItemLine_memo 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"custcol_skan_contrato2",
-                value:cseg_skan_contrato 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"department",
-                value:journalItemLine_departmentRef 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"class",
-                value:journalItemLine_classRef 
-            }).setCurrentSublistValue({
-                sublistId:"line",
-                fieldId:"location",
-                value:journalItemLine_locationRef 
-            }).commitLine({
-                sublistId: "line",
-            })
-            log.debug("haciendo commit")
-        });   
-        log.debug("Se agregón un commit")
-        let idObj=invObj.save({
-            ignoreMandatoryFields: true
-        })
-
-        cabecera.push({
-            idInvoice:idObj
-        })
-
-        log.debug("Se hizo una invoice",cabecera)
-    });
-    return cabecera
-     }
 
         return {getInputData, map, reduce, summarize}
 

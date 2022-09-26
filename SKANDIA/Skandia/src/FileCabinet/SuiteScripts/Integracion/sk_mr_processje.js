@@ -10,6 +10,9 @@
 * @param{record} record
 */
  (email, file, record,search,XLSX,runtime) => {
+
+     
+
      /**
       * Defines the function that is executed at the beginning of the map/reduce process and generates the input data.
       * @param {Object} inputContext
@@ -74,7 +77,7 @@ for (let i = 0; i < numinv; i++) {
                 journalItemLine_memo:element.journalItemLine_memo || null,
                 custcol_skan_nota2:element.custcol_skan_nota2 || null,
                 journalItemLine_entityRef:element.journalItemLine_entityRef || null,
-                custcol_skan_contrato2:element.custcol_skan_contrato2 || null,
+                cseg_skan_contrato2:element.cseg_skan_contrato2 || null,
                 journalItemLine_departmentRef:element.journalItemLine_departmentRef || null,
                 journalItemLine_classRef:element.journalItemLine_classRef || null,
                 journalItemLine_locationRef:element.journalItemLine_locationRef || null,
@@ -88,7 +91,7 @@ for (let i = 0; i < numinv; i++) {
                 journalItemLine_memo:element.journalItemLine_memo || null,
                 custcol_skan_nota2:element.custcol_skan_nota2 || null,
                 journalItemLine_entityRef:element.journalItemLine_entityRef || null,
-                custcol_skan_contrato2:element.custcol_skan_contrato2 || null,
+                cseg_skan_contrato2:element.cseg_skan_contrato2 || null,
                 journalItemLine_departmentRef:element.journalItemLine_departmentRef || null,
                 journalItemLine_classRef:element.journalItemLine_classRef || null,
                 journalItemLine_locationRef:element.journalItemLine_locationRef || null,
@@ -240,7 +243,7 @@ for (let i = 0; i < numinv; i++) {
          
          log.debug("Antes de crear o cargar el journal")
 
-try {
+
  if (journalid == '') {
      var invObj=record.create({
          type: record.Type.STATISTICAL_JOURNAL_ENTRY,
@@ -264,234 +267,232 @@ try {
      invObj.setValue({fieldId:"tranId",value:tranId})
      invObj.setValue({fieldId:"unitstype",value:unitstype_id})    
      invObj.setValue({fieldId:"postingperiod",value:postingperiod_id})
-     
      invObj.setValue({fieldId:"trandate",value:tranDate})
-     /* invObj.setValue({fieldId:"custbody_fam_jrn_reversal_date", value:reversalDate})      */
      
-   if(journalid == ''){
-    datos.lines.forEach(line => {
-
-        let journalItemLine_accountRef= line.journalItemLine_accountRef
-        let journalItemLine_Amount= line.journalItemLine_Amount
-        let journalItemLine_memo= line.journalItemLine_memo
-        let journalItemLine_custcol_skan_nota2= line.custcol_skan_nota2
-        let journalItemLine_entityRef= line.journalItemLine_entityRef
-        let journalItemLine_custcol_skan_contrato2= line.custcol_skan_contrato2
-        let journalItemLine_departmentRef= line.journalItemLine_departmentRef
-        let journalItemLine_classRef= line.journalItemLine_classRef
-        let journalItemLine_locationRef= line.journalItemLine_locationRef
-
-        log.debug('Ya empieza la búsqueda')
-        //#region Busquedas nivel line
-
-       //JIL ACCOUNT ID
-        try {
-           var accountSearchObj = search.create({
-               type: "account",
-               filters:
-               [
-                  ["displayname","contains",journalItemLine_accountRef]
-               ],
-               columns:
-               [
-               search_idacc=search.createColumn({name: "internalid", label: "Internal ID"})
-               ]
-            });
-            var searchResultCount = accountSearchObj.runPaged().count;
-            log.debug("accountSearchObj result count",searchResultCount);
-            accountSearchObj.run().each(function(result){
-               jil_account_id=result.getValue(search_idacc)
-               return true;
-            });
-        } catch (error) {
-           jil_account_id=''
-           log.debug("Error busqueda cuenta item",error.message)
-        }
-
-
-        try {
-           var customerSearchObj = search.create({
-               type: "customer",
-               filters:
-               [
-                  ["externalid","is",journalItemLine_entityRef]
-               ],
-               columns:
-               [
-                  search_entity=search.createColumn({name: "internalid",label: "Internal ID"}),
-               ]
-            });
-            var searchResultCount = customerSearchObj.runPaged().count;
-            log.debug("customerSearchObj result count",searchResultCount);
-            customerSearchObj.run().each(function(result){
-               entity_id=result.getValue(search_entity)
-               return true;
-            });
-        } catch (error) {
-           entity_id=''
-           log.debug("Error recuperando id de cliente",)
-        }
-        try {
-           var customrecord_skan_contratosSearchObj = search.create({
-               type: "customrecord_skan_contratos",
-               filters:
-               [
-                  ["name","is",journalItemLine_custcol_skan_contrato2]
-               ],
-               columns:
-               [
-                search_contrato=  search.createColumn({name: "internalid", label: "Internal ID"}),
-
-               ]
-            });
-            var searchResultCount = customrecord_skan_contratosSearchObj.runPaged().count;
-            customrecord_skan_contratosSearchObj.run().each(function(result){
-               contrato_id=result.getValue(search_contrato)
-               return true;
-            });
-        } catch (error) {
-           contrato_id=''
-           log.debug("Error recuperando id de cliente",)
-        }
-
-        //Department
-        try {
-           var departmentSearchObj = search.create({
-               type: "department",
-               filters:
-               [
-                  ["name","is",journalItemLine_departmentRef]
-               ],
-               columns:
-               [
-                search_depart= search.createColumn({name: "internalid", label: "Internal ID"})
-
-               ]
-            });
-            var searchResultCount = departmentSearchObj.runPaged().count;
-            log.debug("departmentSearchObj result count",searchResultCount);
-            departmentSearchObj.run().each(function(result){
-               department_id=result.getValue(search_depart)
-               return true;
-            });
-           
-        } catch (error) {
-           department_id=''
-           log.debug("fallo en busqueda del departamento",error.message);
-       }
-       
-       //Class
-       try {
-           var classificationSearchObj = search.create({
-               type: "classification",
-               filters:
-               [
-                   ["name","is",journalItemLine_classRef]
-               ],
-               columns:
-               [
-                   search.createColumn({
-                       name: "name",
-                       sort: search.Sort.ASC,
-                       label: "Name"
-                   }),
-                   search_class= search.createColumn({name: "internalid", label: "Internal ID"})
-               ]
-           });
-           var searchResultCount = classificationSearchObj.runPaged().count;
-           log.debug("classificationSearchObj result count",searchResultCount);
-           classificationSearchObj.run().each(function(result){
-               class_id=result.getValue(search_class)
+   if (journalid=='') {
+    try {     
+        datos.lines.forEach(line => {
+            let journalItemLine_accountRef= line.journalItemLine_accountRef
+            let journalItemLine_Amount= line.journalItemLine_Amount
+            let journalItemLine_memo= line.journalItemLine_memo
+            let journalItemLine_custcol_skan_nota2= line.custcol_skan_nota2
+            let journalItemLine_entityRef= line.journalItemLine_entityRef
+            let journalItemLine_cseg_skan_contrato2= line.cseg_skan_contrato2
+            let journalItemLine_departmentRef= line.journalItemLine_departmentRef
+            let journalItemLine_classRef= line.journalItemLine_classRef
+            let journalItemLine_locationRef= line.journalItemLine_locationRef
+   
+            log.debug('Ya empieza la búsqueda')
+            //#region Busquedas nivel line
+   
+           //JIL ACCOUNT ID
+            try {
+               var accountSearchObj = search.create({
+                   type: "account",
+                   filters:
+                   [
+                      ["displayname","contains",journalItemLine_accountRef]
+                   ],
+                   columns:
+                   [
+                   search_idacc=search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+                });
+                var searchResultCount = accountSearchObj.runPaged().count;
+                log.debug("accountSearchObj result count",searchResultCount);
+                accountSearchObj.run().each(function(result){
+                   jil_account_id=result.getValue(search_idacc)
+                   return true;
+                });
+            } catch (error) {
+               jil_account_id=''
+               log.debug("Error busqueda cuenta item",error.message)
+            }
+   
+   
+            try {
+               var customerSearchObj = search.create({
+                   type: "customer",
+                   filters:
+                   [
+                      ["externalid","is",journalItemLine_entityRef]
+                   ],
+                   columns:
+                   [
+                      search_entity=search.createColumn({name: "internalid",label: "Internal ID"}),
+                   ]
+                });
+                var searchResultCount = customerSearchObj.runPaged().count;
+                log.debug("customerSearchObj result count",searchResultCount);
+                customerSearchObj.run().each(function(result){
+                   entity_id=result.getValue(search_entity)
+                   return true;
+                });
+            } catch (error) {
+               entity_id=''
+               log.debug("Error recuperando id de cliente",)
+            }
+            try {
+               var customrecord_skan_contratosSearchObj = search.create({
+                   type: "customrecord_skan_contratos",
+                   filters:
+                   [
+                      ["name","is",journalItemLine_cseg_skan_contrato2]
+                   ],
+                   columns:
+                   [
+                    search_contrato=  search.createColumn({name: "internalid", label: "Internal ID"}),
+   
+                   ]
+                });
+                var searchResultCount = customrecord_skan_contratosSearchObj.runPaged().count;
+                customrecord_skan_contratosSearchObj.run().each(function(result){
+                   contrato_id=result.getValue(search_contrato)
+                   return true;
+                });
+            } catch (error) {
+               contrato_id=''
+               log.debug("Error recuperando id de cliente",)
+            }
+   
+            //Department
+            try {
+               var departmentSearchObj = search.create({
+                   type: "department",
+                   filters:
+                   [
+                      ["name","is",journalItemLine_departmentRef]
+                   ],
+                   columns:
+                   [
+                    search_depart= search.createColumn({name: "internalid", label: "Internal ID"})
+   
+                   ]
+                });
+                var searchResultCount = departmentSearchObj.runPaged().count;
+                log.debug("departmentSearchObj result count",searchResultCount);
+                departmentSearchObj.run().each(function(result){
+                   department_id=result.getValue(search_depart)
+                   return true;
+                });
                
-               return true;
-           });
+            } catch (error) {
+               department_id=''
+               log.debug("fallo en busqueda del departamento",error.message);
+           }
            
-       } catch (error) {
-           class_id=''
-           log.debug("fallo en busqueda de la clase",error.message);
-       }   
-       //Location
-       try {
-           var locationSearchObj = search.create({
-               type: "location",
-               filters:
-               [
-                   ["name","is",journalItemLine_locationRef]
-               ],
-               columns:
-               [
-                search_location=search.createColumn({name: "internalid", label: "Internal ID"})
-               ]
-           });
-           var searchResultCount = locationSearchObj.runPaged().count;
-           log.debug("locationSearchObj result count",searchResultCount);
-           locationSearchObj.run().each(function(result){
-               location_id= result.getValue(search_location)
-               return true;
-           });
-           
-           
-       } catch (error) {
-           location_id= ''
-           log.debug("fallo en busqueda de location",error.message);
-           
-       }
-
-        //#endregion
-
-        log.debug("jil_account_id",jil_account_id)
-        log.debug("objeto",invObj)
-
-        invObj.setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"account",
-            value:jil_account_id
-        })
-        invObj.setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"debit",
-            value:journalItemLine_Amount 
-        }).setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"memo",
-            value:journalItemLine_memo 
-        }).setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"custcol_skan_nota2",
-            value:journalItemLine_custcol_skan_nota2 
-        }).setCurrentSublistValue({
-           sublistId:"line",
-           fieldId:"entity",
-           value:entity_id
-       }).setCurrentSublistValue({
-           sublistId:"line",
-           fieldId:"custcol_skan_contrato2",
-           value:contrato_id
-       }).setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"department",
-            value:department_id 
-        }).setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"class",
-            value:class_id 
-        }).setCurrentSublistValue({
-            sublistId:"line",
-            fieldId:"location",
-            value:location_id 
-        }).commitLine({
-            sublistId: "line",
-        })
-    });
-   }else{
-         datos.lines.forEach(function (line, index) {
+           //Class
+           try {
+               var classificationSearchObj = search.create({
+                   type: "classification",
+                   filters:
+                   [
+                       ["name","is",journalItemLine_classRef]
+                   ],
+                   columns:
+                   [
+                       search.createColumn({
+                           name: "name",
+                           sort: search.Sort.ASC,
+                           label: "Name"
+                       }),
+                       search_class= search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+               });
+               var searchResultCount = classificationSearchObj.runPaged().count;
+               log.debug("classificationSearchObj result count",searchResultCount);
+               classificationSearchObj.run().each(function(result){
+                   class_id=result.getValue(search_class)
+                   
+                   return true;
+               });
+               
+           } catch (error) {
+               class_id=''
+               log.debug("fallo en busqueda de la clase",error.message);
+           }   
+           //Location
+           try {
+               var locationSearchObj = search.create({
+                   type: "location",
+                   filters:
+                   [
+                       ["name","is",journalItemLine_locationRef]
+                   ],
+                   columns:
+                   [
+                    search_location=search.createColumn({name: "internalid", label: "Internal ID"})
+                   ]
+               });
+               var searchResultCount = locationSearchObj.runPaged().count;
+               log.debug("locationSearchObj result count",searchResultCount);
+               locationSearchObj.run().each(function(result){
+                   location_id= result.getValue(search_location)
+                   log.debug("location id",location_id);
+                   return true;
+               });
+           } catch (error) {
+               location_id= ''
+               log.debug("fallo en busqueda de location",error.message);   
+           }
+            //#endregion
+            log.debug("objeto",invObj)
+   
+            invObj.setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"account",
+                value:jil_account_id
+            })
+            invObj.setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"debit",
+                value:journalItemLine_Amount 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"memo",
+                value:journalItemLine_memo 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"custcol_skan_nota2",
+                value:journalItemLine_custcol_skan_nota2 
+            }).setCurrentSublistValue({
+               sublistId:"line",
+               fieldId:"entity",
+               value:entity_id
+           }).setCurrentSublistValue({
+               sublistId:"line",
+               fieldId:"custcol_skan_contrato2",
+               value:contrato_id
+           }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"department",
+                value:department_id 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"class",
+                value:class_id 
+            }).setCurrentSublistValue({
+                sublistId:"line",
+                fieldId:"location",
+                value:location_id
+            }).commitLine({
+                sublistId: "line",
+            })
+            log.debug('commit','commit realizado en la creación')
+        });
+   } catch (error) {
+    log.debug("Error en la creación",error.message)
+}
+} else {
+    try {
+        datos.lines.forEach(function (line, index) {
             log.debug("Posicion en array",index)
          let journalItemLine_accountRef= line.journalItemLine_accountRef
          let journalItemLine_Amount= line.journalItemLine_Amount
          let journalItemLine_memo= line.journalItemLine_memo
          let journalItemLine_custcol_skan_nota2= line.custcol_skan_nota2
          let journalItemLine_entityRef= line.journalItemLine_entityRef
-         let journalItemLine_custcol_skan_contrato2= line.custcol_skan_contrato2
+         let journalItemLine_cseg_skan_contrato2= line.cseg_skan_contrato2
          let journalItemLine_departmentRef= line.journalItemLine_departmentRef
          let journalItemLine_classRef= line.journalItemLine_classRef
          let journalItemLine_locationRef= line.journalItemLine_locationRef
@@ -551,7 +552,7 @@ try {
                 type: "customrecord_skan_contratos",
                 filters:
                 [
-                   ["name","is",journalItemLine_custcol_skan_contrato2]
+                   ["name","is",journalItemLine_cseg_skan_contrato2]
                 ],
                 columns:
                 [
@@ -658,10 +659,7 @@ try {
             log.debug("fallo en busqueda de location",error.message);
             
         }
-
          //#endregion
-
-
          let itemcount = invObj.getLineCount({
             sublistId: 'line'
         });
@@ -711,19 +709,14 @@ try {
          }).commitLine({
              sublistId: "line",
          })
-
-         log.debug('commit','commit realizado')
-
+         log.debug('commit','commit realizado en actualización')
         }
      });
+        
+    } catch (error) {
+        log.debug("Error en la creación",error.message)
+    }
    }
-
-
-
-} catch (error) {
- log.debug("Error en la carga/actualización",error.message)
- log.debug(idObj)
-}
 
         try {
          let idObj=invObj.save({
