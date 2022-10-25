@@ -10,9 +10,6 @@
 * @param{record} record
 */
  (email, file, record,search,XLSX,runtime) => {
-
-     
-
      /**
       * Defines the function that is executed at the beginning of the map/reduce process and generates the input data.
       * @param {Object} inputContext
@@ -777,22 +774,28 @@ for (let i = 0; i < numinv; i++) {
      let fileObj = file.load({
          id: fileId
      });
- /*                 folders={
-         cuentas:2313,
-         nomina:2310,
-         siniestros:2070,
-         inversiones:2316
-     } */
- 
- if (folderId===2313){
-     fileObj.folder = 2314;
- } else if(folderId===2310){
-     fileObj.folder = 2311;
- }else if(folderId===2070){
-     fileObj.folder = 2071;
- }else if(folderId===2316){
-     fileObj.folder = 2317;                
- }
+    /*folders De Recibido={
+        cuentas:1526,
+        nomina:1533,
+        siniestros:1528,
+        inversiones:1527
+        } */
+    /*folders A Depositar={
+        cuentas:1531,
+        nomina:1534,
+        siniestros:1529,
+        inversiones:1530
+        } */
+    
+        if (folderId===1526){
+            fileObj.folder = 1531;
+        } else if(folderId===1533){
+            fileObj.folder = 1534;
+        }else if(folderId===1528){
+            fileObj.folder = 1529;
+        }else if(folderId===1527){
+            fileObj.folder = 1530;                
+        }
  fileObj.save();
  log.debug("SE GUARDÓ EL DOCUMENTO")
  } catch (error) {

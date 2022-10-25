@@ -10,40 +10,24 @@
 */
 define(['N/record','N/search','N/file',"xlsx","N/util","N/format",'N/task'], function (record,search,file,XLSX,util,format,task) {
 
-//Detalles de este script que son necesarios verifiacar al ser implementado
-/*NÚMERO DE LOS FOLDERS
-/* 
-CUENTAS
-    folder_recibido:2313,
-    folder_exito:2314,
-    folder_error:2315
-NOMINDA
-{
-    folder_recibido:2310,
-    folder_exito:2311,
-    folder_error:2312
-}
-SINIESTROS
-{
-    folder_recibido:2070,
-    folder_exito:2071,
-    folder_error:2072
-}
-inversiones{
-    folder_recibido:2316,
-    folder_exito:2317,
-    folder_error:2318
-} */
-    const folders={
-        cuentas:2313,
-        nomina:2310,
-        siniestros:2070,
-        inversiones:2316
+
+    function get(params) {
+        return "get"
     }
-    const response={    
+
+//Detalles de este script que son necesarios verifiacar al ser implementado
+/*NÚMERO DE LOS FOLDERS*/
+
+    const folders={
+        cuentas:1526,
+        nomina:1533,
+        siniestros:1528,
+        inversiones:1527
+    }
+    const response={
         code:null,
         message:null,
-        result:null,
+        result:null
     }
 
     function post(params) {
@@ -180,5 +164,6 @@ function guardar_file(nombrefile,contenido,folder) {
 
      return {
          post: post,
+         get: get
      };
  });
