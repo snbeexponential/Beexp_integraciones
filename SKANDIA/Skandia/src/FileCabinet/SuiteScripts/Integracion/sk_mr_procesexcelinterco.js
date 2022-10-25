@@ -3,12 +3,11 @@
  * @NScriptType MapReduceScript
  * @NAmdConfig ../excel_module/sk_sc_excel_conf.json
  */
-define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"]
-/**
+define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"], /**
  * @param{email} email
  * @param{file} file
  * @param{record} record
- */, (email, file, record, search, XLSX, runtime) => {
+ */ (email, file, record, search, XLSX, runtime) => {
   /**
    * Defines the function that is executed at the beginning of the map/reduce process and generates the input data.
    * @param {Object} inputContext
@@ -22,19 +21,39 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"]
    * @since 2015.2
    */
   //Top variables modificado por saul navarro el 12/09/22
-  var invObj;
-  let journalid;
-  let subsidiary_id;
-  let currency_id;
-  let postingperiod_id;
-  let externalid;
-  let subsidiary_search;
+  //Variables utiles globales
+  let purchaseObj;
+  let purchaseid;
 
-  let entity_id;
-  let contrato_id;
+  //Campos para Cargar en cabecera
+  let po_externalid;
+  let po_vendor;
+  let po_subsidiary;
+  let po_employee;
+  let po_supervisorapproval;
+  let po_duedate;
+  let po_trandate;
+  let po_memo;
+  let po_department;
+  let po_clase;
+  let po_location;
+  let po_currency;
+  let po_exchangeRate;
+  //Variables id recuperado de Búsqueda de los campos de cabecera
+  let vendor_id;
+  let subsidiary_id;
+  let employee_id;
   let department_id;
-  let class_id;
+  let clase_id;
   let location_id;
+  let currency_id;
+
+  //Variables id para Búsqueda de los campos de Línea
+  let line_item_id;
+  let line_location;
+  let line_department_id;
+  let itemLine_class;
+  let itemLine_contrato_id; //PENDIENTE DE INTEGRAR
 
   const getInputData = (inputContext) => {
     const contentfromget = JSON.parse(
@@ -44,7 +63,7 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"]
     );
     documentId = contentfromget.idxls;
     folderId = contentfromget.folderselec;
-
+    log.debug("Se traen los datos ", documentId);
     var obejson = excelFileToJson(documentId);
 
     var numinv = 0;
@@ -65,126 +84,107 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"]
     obejson[0].forEach((element) => {
       if (element.externalid && flag1 < numinv) {
         arreglimto[flag1].cabecera = {
-
           externalid: element.externalid || null,
+          otherrefnum: element.otherrefnum || null,
+          vendor: element.vendor || null,
           subsidiary: element.subsidiary || null,
+          employee: element.employee || null,
+          supervisorapproval: element.supervisorapproval || null,
+          duedate: element.duedate ? element.duedate : "",
+          trandate: element.trandate ? element.tranDate : "",
+          memo: element.memo || null,
+          department: element.department || null,
+          clase: element.class || null,
+          location: element.location || null,
           currency: element.currency || null,
-          exchangerate: element.exchangerate || null,
-          postingperiod: element.postingperiod || null,
-          tranDate: element.tranDate ? element.tranDate : "",
-          reversalDate: element.reversalDate ? element.reversalDate : "",
-          isDeferred: element.isDeferred || null,
-        
+          exchangeRate: element.exchangeRate || null,
         };
         arreglimto[flag1].lines.push({
-
-          journalItemLine_accountRef:
-            element.journalItemLine_accountRef || null,
-          journalItemLine_debitAmount:
-            element.journalItemLine_debitAmount || null,
-          journalItemLine_creditAmount:
-            element.journalItemLine_creditAmount || null,
-          journalItemLine_memo: element.journalItemLine_memo || null,
-          custcol_skan_nota2: element.custcol_skan_nota2 || null,
-          journalItemLine_entityRef: element.journalItemLine_entityRef || null,
-          cseg_skan_contrato: element.cseg_skan_contrato || null,
-          journalItemLine_departmentRef:
-            element.journalItemLine_departmentRef || null,
-          journalItemLine_classRef: element.journalItemLine_classRef || null,
-          journalItemLine_locationRef:
-            element.journalItemLine_locationRef || null,
-          journalItemLine_taxCodeRef:
-            element.journalItemLine_taxCodeRef || null,
-          journalItemLine_taxCodeAmount:
-            element.journalItemLine_taxCodeAmount || null,
-        
-        
+          purchaseItemLine_item: element.purchaseItemLine_item || null,
+          purchaseItemLine_quantity: element.purchaseItemLine_quantity || null,
+          purchaseItemLine_units: element.purchaseItemLine_units || null,
+          purchaseItemLine_rate: element.purchaseItemLine_rate || null,
+          purchaseItemLine_amount: element.purchaseItemLine_amount || null,
+          custrecord_mx_sat_to_code: element.custrecord_mx_sat_to_code || null,
+          purchaseItemLine_description: element.purchaseItemLine_description ||null,
+          purchaseItemLine_department: element.purchaseItemLine_department || null,
+          purchaseItemLine_class: element.purchaseItemLine_class || null,
+          purchaseItemLine_location: element.purchaseItemLine_location || null,
         });
-
         flag1++;
       } else {
         var newindex = flag1 - 1;
         arreglimto[newindex].lines.push({
-          journalItemLine_accountRef:
-            element.journalItemLine_accountRef || null,
-          journalItemLine_debitAmount:
-            element.journalItemLine_debitAmount || null,
-          journalItemLine_creditAmount:
-            element.journalItemLine_creditAmount || null,
-          journalItemLine_memo: element.journalItemLine_memo || null,
-          custcol_skan_nota2: element.custcol_skan_nota2 || null,
-          journalItemLine_entityRef: element.journalItemLine_entityRef || null,
-          cseg_skan_contrato: element.cseg_skan_contrato || null,
-          journalItemLine_departmentRef:
-            element.journalItemLine_departmentRef || null,
-          journalItemLine_classRef: element.journalItemLine_classRef || null,
-          journalItemLine_locationRef:
-            element.journalItemLine_locationRef || null,
-          journalItemLine_taxCodeRef:
-            element.journalItemLine_taxCodeRef || null,
-          journalItemLine_taxCodeAmount:
-            element.journalItemLine_taxCodeAmount || null,
+          purchaseItemLine_item: element.purchaseItemLine_item || null,
+          purchaseItemLine_quantity: element.purchaseItemLine_quantity || null,
+          purchaseItemLine_units: element.purchaseItemLine_units || null,
+          purchaseItemLine_rate: element.purchaseItemLine_rate || null,
+          purchaseItemLine_amount: element.purchaseItemLine_amount || null,
+          custrecord_mx_sat_to_code: element.custrecord_mx_sat_to_code || null,
+          purchaseItemLine_description: element.purchaseItemLine_description || null,
+          purchaseItemLine_department: element.purchaseItemLine_department || null,
+          purchaseItemLine_class: element.purchaseItemLine_class || null,
+          purchaseItemLine_location: element.purchaseItemLine_location || null,
         });
       }
     });
+    log.debug("Campos encontradoe en el documento", arreglimto);
     return arreglimto;
   };
-  /**
-   * Defines the function that is executed when the map entry point is triggered. This entry point is triggered automatically
-   * when the associated getInputData stage is complete. This function is applied to each key-value pair in the provided
-   * context.
-   * @param {Object} mapContext - Data collection containing the key-value pairs to process in the map stage. This parameter
-   *     is provided automatically based on the results of the getInputData stage.
-   * @param {Iterator} mapContext.errors - Serialized errors that were thrown during previous attempts to execute the map
-   *     function on the current key-value pair
-   * @param {number} mapContext.executionNo - Number of times the map function has been executed on the current key-value
-   *     pair
-   * @param {boolean} mapContext.isRestarted - Indicates whether the current invocation of this function is the first
-   *     invocation (if true, the current invocation is not the first invocation and this function has been restarted)
-   * @param {string} mapContext.key - Key to be processed during the map stage
-   * @param {string} mapContext.value - Value to be processed during the map stage
-   * @since 2015.2
-   */
 
   const map = (mapContext) => {
     try {
       var datos = JSON.parse(mapContext.value);
+      //Campos de Cabecera
+      //po_otherrefnum = datos.cabecera.otherrefnum
+      po_externalid = datos.cabecera.externalid;  //Search * +
+      po_vendor = datos.cabecera.vendor;          //Search * +
+      po_subsidiary = datos.cabecera.subsidiary;  //Search * +
+      po_employee = datos.cabecera.employee;      //Search * +
+      po_department = datos.cabecera.department;  //Search * +
+      po_clase = datos.cabecera.clase;            //Search * +
+      po_location = datos.cabecera.location;      //Search * +
+      po_currency = datos.cabecera.currency;      //Search * +
+      //po_supervisorapproval = datos.cabecera.supervisorapproval;
+      po_duedate = transformdate(datos.cabecera.duedate);   // +
+      po_trandate = transformdate(datos.cabecera.trandate); // +
+      po_memo = datos.cabecera.memo;                        // +
+      po_exchangeRate = datos.cabecera.exchangeRate;        // +
 
-      //#region Cabecera
-        externalid = datos.cabecera.externalid; //hecha la busqueda del external id
-        subsidiary_search = datos.cabecera.subsidiary; //Cadena para buscar subsidiary "Parent Company : " +
-      //#region  C .- Subsidiary
-try {
-    var subsidiarySearchObj = search.create({
-        type: "subsidiary",
-        filters:
-        [
-           ["namenohierarchy","is",subsidiary_search]
-        ],
-        columns:
-        [
-            search_idsub=search.createColumn({name: "internalid", label: "Internal ID"}),
-           /* search.createColumn({name: "namenohierarchy", label: "Name (no hierarchy)"}) */
-        ]
-     });
-     var searchResultCount = subsidiarySearchObj.runPaged().count;
-     log.debug("subsidiarySearchObj result count",searchResultCount);
-     subsidiarySearchObj.run().each(function(result){
-        subsidiary_id = result.getValue(search_idsub);
-        log.debug( "Se recuepera subsidiary_id",subsidiary_id )
-        return true;
-    });
-} catch (error) {
-    subsidiary_id=''
-    log.debug("Error en la busqueda subsidiaria", error.message);
-}
-/* 
+
+
+      //#region Busqueda 1 vendor
+      try {
+          var vendorSearchObj = search.create({
+            type: "vendor",
+            filters: [["entityid", "is", po_vendor]],
+            columns: [
+              (search_vendor = search.createColumn({
+                name: "internalid",
+                label: "Internal ID",
+              })),
+            ],
+          });
+          var searchResultCount = vendorSearchObj.runPaged().count;
+          log.debug("vendorSearchObj result count", searchResultCount);
+          vendorSearchObj.run().each(function (result) {
+            vendor_id = result.getValue(search_vendor);
+            return true;
+          });
+      
+      } catch (error) {
+        vendor_id = "";
+        log.debug("Error recuperando id de PROVEEDOR", error.message);
+      }
+      //#endregion
+      //#region Busqueda 2 Subsidiaria
+
       try {
         var subsidiarySearchObj = search.create({
           type: "subsidiary",
-          filters: [["name", "is", subsidiary_search]],
+          filters: [["namenohierarchy", "is", po_subsidiary]],
           columns: [
-            (search_idsub = search.createColumn({
+            (search_subsidiary = search.createColumn({
               name: "internalid",
               label: "Internal ID",
             })),
@@ -192,58 +192,134 @@ try {
         });
         var searchResultCount = subsidiarySearchObj.runPaged().count;
         subsidiarySearchObj.run().each(function (result) {
-            subsidiary_id = result.getValue(search_idsub);
-            subsidiary_id=12
-            return true;
+          subsidiary_id = result.getValue(search_subsidiary);
+          return true;
         });
-        log.debug( "Se recuepera algo ?? subsidiary_id",subsidiary_id )
-    } catch (error) {
+      } catch (error) {
+        subsidiary_id = "";
         log.debug("Error en la busqueda subsidiaria", error.message);
       }
-        */
-      
+
       //#endregion
-      //#endregion
-      //#region E.- Posting period
-      let postingperiod = datos.cabecera.postingperiod;
+      //#region Busqueda 3 employee
       try {
-        if (postingperiod) {
-          var accountingperiodSearchObj = search.create({
-            type: "accountingperiod",
-            filters: [["periodname", "is", postingperiod]],
+        var employeeSearchObj = search.create({
+          type: "employee",
+          filters:
+          [
+             ["entityid","haskeywords",po_employee]
+          ],
+          columns:
+          [
+            search_employee = search.createColumn({name: "internalid", label: "Internal ID"})
+          ]
+       });
+       var searchResultCount = employeeSearchObj.runPaged().count;
+       log.debug("employeeSearchObj result count",searchResultCount);
+       employeeSearchObj.run().each(function(result){
+        employee_id = result.getValue(search_employee)
+          return true;
+       });
+       
+      } catch (error) {
+        employee_id = ""
+        log.debug("Error en la busqueda employee", error.message); 
+      }
+      //#endregion
+      //#region Busqueda 4 department
+      try {
+        if (po_department) {
+          var departmentSearchObj = search.create({
+            type: "department",
+            filters: [["namenohierarchy", "is", po_department]],
             columns: [
-              (search_postp = search.createColumn({
+              (search_depart = search.createColumn({
                 name: "internalid",
                 label: "Internal ID",
               })),
             ],
           });
-          var searchResultCount = accountingperiodSearchObj.runPaged().count;
-          accountingperiodSearchObj.run().each(function (result) {
-            postingperiod_id = result.getValue(search_postp);
+          var searchResultCount = departmentSearchObj.runPaged().count;
+          log.debug("departmentSearchObj result count", searchResultCount);
+          departmentSearchObj.run().each(function (result) {
+            department_id = result.getValue(search_depart);
             return true;
           });
         } else {
-          postingperiod_id = "";
+          department_id = "";
         }
       } catch (error) {
-        postingperiod_id = "";
-        log.debug("Error en la busqueda posting period", error.message);
+        department_id = "";
+        log.debug("fallo en busqueda del departamento", error.message);
       }
       //#endregion
+      //#region Busqueda 5 clase
+      try {
+        if (po_clase) {
+          var classificationSearchObj = search.create({
+            type: "classification",
+            filters: [["name", "is", po_clase]],
+            columns: [
+              search.createColumn({
+                name: "name",
+                sort: search.Sort.ASC,
+                label: "Name",
+              }),
+              (search_class = search.createColumn({
+                name: "internalid",
+                label: "Internal ID",
+              })),
+            ],
+          });
+          var searchResultCount = classificationSearchObj.runPaged().count;
+          log.debug("classificationSearchObj result count", searchResultCount);
+          classificationSearchObj.run().each(function (result) {
+            clase_id = result.getValue(search_class);
 
-      let currency = datos.cabecera.currency;
-      //#region Currency
+            return true;
+          });
+        } else {
+          clase_id = "";
+        }
+      } catch (error) {
+        clase_id = "";
+        log.debug("fallo en busqueda de la clase", error.message);
+      }
+      //#endregion
+      //#region Busqueda 6 location
+      try {
+        if (po_location) {
+          var locationSearchObj = search.create({
+            type: "location",
+            filters: [["name", "is", po_location]],
+            columns: [
+              (search_location = search.createColumn({
+                name: "internalid",
+                label: "Internal ID",
+              })),
+            ],
+          });
+          var searchResultCount = locationSearchObj.runPaged().count;
+          log.debug("locationSearchObj result count", searchResultCount);
+          locationSearchObj.run().each(function (result) {
+            location_id = result.getValue(search_location);
+            log.debug("location id", location_id);
+            return true;
+          });
+        } else {
+          location_id = "";
+        }
+      } catch (error) {
+        location_id = "";
+        log.debug("fallo en busqueda de location", error.message);
+      }
+      //#endregion
+      //#region Busqueda 7 Currency
       try {
         var currencySearchObj = search.create({
           type: "currency",
-          filters: [["name", "is", currency]],
+          filters: [["name", "is", po_currency]],
           columns: [
-            search.createColumn({
-              name: "name",
-              sort: search.Sort.ASC,
-              label: "Name",
-            }),
             (search_currency = search.createColumn({
               name: "internalid",
               label: "Internal ID",
@@ -259,33 +335,22 @@ try {
         log.debug("fallo en busqueda de la moneda", error.message);
       }
 
-      let tranDate;
-      let reversalDate;
-      let exchangerate;
-      let isDeferred;
-
-      try {
-        tranDate = transformdate(datos.cabecera.tranDate);
-        reversalDate = transformdate(datos.cabecera.reversalDate);
-        exchangerate = datos.cabecera.exchangerate;
-        isDeferred = datos.cabecera.isDeferred == "true" ? true : false;
-      } catch (error) {
-        log.debug("error en campos", error.message);
-      }
       //#endregion
-      if (externalid != "" && externalid != null) {
+      //#region Búsqueda 8 ExternalID para crear o actualizar una PURCHASE ORDER
+
+      if (po_externalid != "" && po_externalid != null) {
         try {
           var transactionSearchObj = search.create({
             type: "transaction",
             filters: [
-              ["recordtype", "is", record.Type.JOURNAL_ENTRY],
+              ["recordtype", "is", record.Type.PURCHASE_ORDER],
               "AND",
               ["mainline", "is", "T"],
               "AND",
-              ["externalid", "is", externalid],
+              ["externalid", "is", po_externalid],
             ],
             columns: [
-              (search_invoice = search.createColumn({
+              (search_purchase = search.createColumn({
                 name: "internalid",
                 label: "Internal ID",
               })),
@@ -294,11 +359,11 @@ try {
           var searchResultCount = transactionSearchObj.runPaged().count;
           if (searchResultCount > 0) {
             transactionSearchObj.run().each(function (result) {
-              journalid = result.getValue(search_invoice);
+              purchaseid = result.getValue(search_purchase);
               return true;
             });
           } else {
-            journalid = "";
+            purchaseid = "";
           }
         } catch (error) {
           log.debug("Error", error.message);
@@ -306,158 +371,82 @@ try {
       } else {
         log.debug("El campo externalid es obligatorio.");
       }
+      //#endregion
       try {
-        if (journalid == "") {
-          invObj = record.create({
-            type: record.Type.JOURNAL_ENTRY,
+        if (purchaseid == "") {
+          purchaseObj = record.create({
+            type: record.Type.PURCHASE_ORDER,
             isDynamic: true,
           });
-          invObj.setValue({
+
+          purchaseObj.setValue({
+            fieldId: "entity",
+            value: vendor_id,
+          });
+          /*        purchaseObj.setValue({
             fieldId: "subsidiary",
             value: subsidiary_id,
-          });
-
-          invObj.setValue({
+          }); */
+          purchaseObj.setValue({
             fieldId: "externalid",
-            value: externalid,
+            value: po_externalid,
           });
         } else {
-          invObj = record.load({
-            type: record.Type.JOURNAL_ENTRY,
-            id: journalid,
+          purchaseObj = record.load({
+            type: record.Type.PURCHASE_ORDER,
+            id: purchaseid,
             isDynamic: true,
           });
+          purchaseObj.setValue({
+            fieldId: "entity",
+            value: vendor_id,
+          });
         }
-        invObj.setValue({ fieldId: "trandate", value: tranDate });
-
-        invObj.setValue({
-          fieldId: "exchangerate",
-          value: parseFloat(exchangerate),
-        });
-
-        invObj.setValue({
-          fieldId: "postingperiod",
-          value: postingperiod_id == null ? "" : postingperiod_id,
-        });
-        log.debug("postingperiod_id Contenido", postingperiod_id);
-
-        invObj.setValue({ fieldId: "currency", value: parseInt(currency_id) });
+        
+        purchaseObj.setValue({ fieldId: "trandate", value: po_trandate });
+        purchaseObj.setValue({ fieldId: "exchangerate",value: parseFloat(po_exchangeRate)});
+        purchaseObj.setValue({ fieldId: "currency", value: parseInt(currency_id) });
+        purchaseObj.setValue({ fieldId: "employee", value: employee_id });
+        purchaseObj.setValue({ fieldId: "department", value: department_id });
+        purchaseObj.setValue({ fieldId: "class", value: clase_id });
+        purchaseObj.setValue({ fieldId: "cseg_skan_suc", value: location_id });
+        purchaseObj.setValue({ fieldId: "trandate", value: po_duedate });
+        purchaseObj.setValue({ fieldId: "trandate", value: po_memo });
       } catch (error) {
-        log.debug("falla en este bloque", error.message);
+        log.debug("falla en insertar cabeceras", error.message);
       }
 
-      if (journalid == "") {
+      if (purchaseid == "") {
         try {
           datos.lines.forEach((line) => {
-            let journalItemLine_accountRef = line.journalItemLine_accountRef;
-            let journalItemLine_debitAmount = line.journalItemLine_debitAmount;
-            let journalItemLine_creditAmount =
-              line.journalItemLine_creditAmount;
-            let journalItemLine_memo = line.journalItemLine_memo;
-            let journalItemLine_custcol_skan_nota2 = line.custcol_skan_nota2;
-            let journalItemLine_entityRef = line.journalItemLine_entityRef;
-            let journalItemLine_custcol_skan_contrato2 =
-              line.cseg_skan_contrato;
-            let journalItemLine_departmentRef =
-              line.journalItemLine_departmentRef;
+
+            let purchaseItemLine_item =line.purchaseItemLine_item
+            let purchaseItemLine_quantity =line.purchaseItemLine_quantity
+            let purchaseItemLine_units =line.purchaseItemLine_units
+            let purchaseItemLine_rate =line.purchaseItemLine_rate
+            let purchaseItemLine_amount =line.purchaseItemLine_amount
+            let custrecord_mx_sat_to_code =line.custrecord_mx_sat_to_code
+            let purchaseItemLine_description =line.purchaseItemLine_description
+            let purchaseItemLine_department =line.purchaseItemLine_department
+            let purchaseItemLine_class =line.purchaseItemLine_class
+            let purchaseItemLine_location =line.purchaseItemLine_location
+
+            
+
+            let journalItemLine_departmentRef = line.journalItemLine_departmentRef;
             let journalItemLine_classRef = line.journalItemLine_classRef;
             let journalItemLine_locationRef = line.journalItemLine_locationRef;
 
-            log.debug(
-              "Ya empieza la búsqueda a nivel línea ->CONTRATO",
-              journalItemLine_custcol_skan_contrato2
-            );
             //#region Busquedas nivel line
 
-            //JIL ACCOUNT ID
-            try {
-              var accountSearchObj = search.create({
-                type: "account",
-                filters: [
-                  ["displayname", "contains", journalItemLine_accountRef],
-                ],
-                columns: [
-                  (search_idacc = search.createColumn({
-                    name: "internalid",
-                    label: "Internal ID",
-                  })),
-                ],
-              });
-              var searchResultCount = accountSearchObj.runPaged().count;
-              log.debug("accountSearchObj result count", searchResultCount);
-              accountSearchObj.run().each(function (result) {
-                jil_account_id = result.getValue(search_idacc);
-                return true;
-              });
-            } catch (error) {
-              jil_account_id = "";
-              log.debug("Error busqueda cuenta item", error.message);
-            }
 
             try {
-              if (journalItemLine_entityRef) {
-                var customerSearchObj = search.create({
-                  type: "customer",
-                  filters: [["externalid", "is", journalItemLine_entityRef]],
-                  columns: [
-                    (search_entity = search.createColumn({
-                      name: "internalid",
-                      label: "Internal ID",
-                    })),
-                  ],
-                });
-                var searchResultCount = customerSearchObj.runPaged().count;
-                log.debug("customerSearchObj result count", searchResultCount);
-                customerSearchObj.run().each(function (result) {
-                  entity_id=''
-                  entity_id = result.getValue(search_entity);
-                  return true;
-                });
-              } else {
-                entity_id = "";
-              }
-            } catch (error) {
-              entity_id = "";
-              log.debug("Error recuperando id de cliente 369", error.message);
-            }
-            try {
-              if (journalItemLine_custcol_skan_contrato2) {
-                log.debug("tipo de dato recuperado contrato" , journalItemLine_custcol_skan_contrato2)
-                var customrecord_skan_contratosSearchObj = search.create({
-                  type: "customrecord_skan_contratos",
-                  filters: [
-                    ["name", "is", journalItemLine_custcol_skan_contrato2],
-                  ],
-                  columns: [
-                    (search_contrato = search.createColumn({
-                      name: "internalid",
-                      label: "Internal ID",
-                    })),
-                  ],
-                });
-                var searchResultCount =
-                  customrecord_skan_contratosSearchObj.runPaged().count;
-                customrecord_skan_contratosSearchObj
-                  .run()
-                  .each(function (result) {
-                    contrato_id = result.getValue(search_contrato);
-                    log.debug("Encontramos un contrato" ,contrato_id )
-                    return true;
-                  });
-              } else {
-                contrato_id = "";
-              }
-            } catch (error) {
-              contrato_id = "";
-              log.debug("Error recuperando id de contrato 391");
-            }
-
-            //Department
-            try {
-              if (journalItemLine_departmentRef) {
+              if (purchaseItemLine_department) {
                 var departmentSearchObj = search.create({
                   type: "department",
-                  filters: [["namenohierarchy", "is", journalItemLine_departmentRef]],
+                  filters: [
+                    ["namenohierarchy", "is", purchaseItemLine_department],
+                  ],
                   columns: [
                     (search_depart = search.createColumn({
                       name: "internalid",
@@ -507,15 +496,15 @@ try {
                   searchResultCount
                 );
                 classificationSearchObj.run().each(function (result) {
-                  class_id = result.getValue(search_class);
+                  clase_id = result.getValue(search_class);
 
                   return true;
                 });
               } else {
-                class_id = "";
+                clase_id = "";
               }
             } catch (error) {
-              class_id = "";
+              clase_id = "";
               log.debug("fallo en busqueda de la clase", error.message);
             }
             //Location
@@ -546,12 +535,13 @@ try {
               log.debug("fallo en busqueda de location", error.message);
             }
             //#endregion
-            invObj.setCurrentSublistValue({
+            purchaseObj.setCurrentSublistValue({
               sublistId: "line",
               fieldId: "account",
               value: jil_account_id,
             });
-            invObj.setCurrentSublistValue({
+            purchaseObj
+              .setCurrentSublistValue({
                 sublistId: "line",
                 fieldId: "debit",
                 value: journalItemLine_debitAmount,
@@ -589,7 +579,7 @@ try {
               .setCurrentSublistValue({
                 sublistId: "line",
                 fieldId: "class",
-                value: class_id,
+                value: clase_id,
               })
               .setCurrentSublistValue({
                 sublistId: "line",
@@ -654,33 +644,29 @@ try {
             }
 
             try {
-                var customerSearchObj = search.create({
-                    type: "customer",
-                    filters:
-                    [
-                        ["externalid", "is", journalItemLine_entityRef]
-                    ],
-                    columns:
-                    [
-                       search_entity=search.createColumn({name: "internalid", label: "Internal ID"})
-
-                    ]
-                 });
-                 var searchResultCount = customerSearchObj.runPaged().count;
-                 log.debug("customerSearchObj result count",searchResultCount);
-                 customerSearchObj.run().each(function(result){
-                    entity_id = ''
-                    entity_id = result.getValue(search_entity);
-                    return true;
-                 });
-            } catch (error) {
+              var customerSearchObj = search.create({
+                type: "customer",
+                filters: [["externalid", "is", journalItemLine_entityRef]],
+                columns: [
+                  (search_entity = search.createColumn({
+                    name: "internalid",
+                    label: "Internal ID",
+                  })),
+                ],
+              });
+              var searchResultCount = customerSearchObj.runPaged().count;
+              log.debug("customerSearchObj result count", searchResultCount);
+              customerSearchObj.run().each(function (result) {
                 entity_id = "";
-                log.debug("Error recuperando id de cliente");
+                entity_id = result.getValue(search_entity);
+                return true;
+              });
+            } catch (error) {
+              entity_id = "";
+              log.debug("Error recuperando id de cliente");
             }
 
-
-
-       /*      try {
+            /*      try {
               var customerSearchObj = search.create({
                 type: "customer",
                 filters: [["externalid", "is", journalItemLine_entityRef]],
@@ -703,33 +689,36 @@ try {
             } */
 
             try {
-                if (journalItemLine_custcol_skan_contrato2) {
-                    log.debug( "tipo de dato recuperado contrato",typeof(journalItemLine_custcol_skan_contrato2 ))
-                    var customrecord_skan_contratosSearchObj = search.create({
-                      type: "customrecord_skan_contratos",
-                      filters: [
-                        ["name", "is", journalItemLine_custcol_skan_contrato2],
-                      ],
-                      columns: [
-                        (search_contrato = search.createColumn({
-                          name: "internalid",
-                          label: "Internal ID",
-                        })),
-                      ],
-                    });
-                    var searchResultCount =
-                      customrecord_skan_contratosSearchObj.runPaged().count;
-                    customrecord_skan_contratosSearchObj
-                      .run()
-                      .each(function (result) {
-                        contrato_id = "";
-                        contrato_id = result.getValue(search_contrato);
-                        log.debug("Encontramos un contrato" ,contrato_id )
-                        return true;
-                      });
-                  } else {
+              if (journalItemLine_custcol_skan_contrato2) {
+                log.debug(
+                  "tipo de dato recuperado contrato",
+                  typeof journalItemLine_custcol_skan_contrato2
+                );
+                var customrecord_skan_contratosSearchObj = search.create({
+                  type: "customrecord_skan_contratos",
+                  filters: [
+                    ["name", "is", journalItemLine_custcol_skan_contrato2],
+                  ],
+                  columns: [
+                    (search_contrato = search.createColumn({
+                      name: "internalid",
+                      label: "Internal ID",
+                    })),
+                  ],
+                });
+                var searchResultCount =
+                  customrecord_skan_contratosSearchObj.runPaged().count;
+                customrecord_skan_contratosSearchObj
+                  .run()
+                  .each(function (result) {
                     contrato_id = "";
-                  }
+                    contrato_id = result.getValue(search_contrato);
+                    log.debug("Encontramos un contrato", contrato_id);
+                    return true;
+                  });
+              } else {
+                contrato_id = "";
+              }
             } catch (error) {
               contrato_id = "";
               log.debug("Error recuperando id de cliente");
@@ -737,10 +726,12 @@ try {
 
             //Department
             try {
-              if (journalItemLine_departmentRef) {
+              if (purchaseItemLine_department) {
                 var departmentSearchObj = search.create({
                   type: "department",
-                  filters: [["namenohierarchy", "is", journalItemLine_departmentRef]],
+                  filters: [
+                    ["namenohierarchy", "is", purchaseItemLine_department],
+                  ],
                   columns: [
                     (search_depart = search.createColumn({
                       name: "internalid",
@@ -755,10 +746,7 @@ try {
                 );
                 departmentSearchObj.run().each(function (result) {
                   department_id = result.getValue(search_depart);
-                  log.debug(
-                    "department result ID",
-                    department_id
-                  );
+                  log.debug("department result ID", department_id);
                   return true;
                 });
               } else {
@@ -792,12 +780,12 @@ try {
                 searchResultCount
               );
               classificationSearchObj.run().each(function (result) {
-                class_id = result.getValue(search_class);
+                clase_id = result.getValue(search_class);
 
                 return true;
               });
             } catch (error) {
-              class_id = "";
+              clase_id = "";
               log.debug("fallo en busqueda de la clase", error.message);
             }
             //Location
@@ -823,23 +811,22 @@ try {
               log.debug("fallo en busqueda de location", error.message);
             }
             //#endregion
-            let itemcount = invObj.getLineCount({
+            let itemcount = purchaseObj.getLineCount({
               sublistId: "line",
             });
 
             if (index < itemcount) {
-
-                log.debug("Valor del MEMO",journalItemLine_memo )
-              invObj.selectLine({
+              log.debug("Valor del MEMO", journalItemLine_memo);
+              purchaseObj.selectLine({
                 sublistId: "line",
                 line: index,
               });
-              invObj.setCurrentSublistValue({
+              purchaseObj.setCurrentSublistValue({
                 sublistId: "line",
                 fieldId: "account",
                 value: jil_account_id,
               });
-              invObj
+              purchaseObj
                 .setCurrentSublistValue({
                   sublistId: "line",
                   fieldId: "debit",
@@ -878,7 +865,7 @@ try {
                 .setCurrentSublistValue({
                   sublistId: "line",
                   fieldId: "class",
-                  value: class_id,
+                  value: clase_id,
                 })
                 .setCurrentSublistValue({
                   sublistId: "line",
@@ -897,7 +884,7 @@ try {
       }
 
       try {
-        let idObj = invObj.save({
+        let idObj = purchaseObj.save({
           ignoreMandatoryFields: true,
         });
         log.debug("Se crea el journal", idObj);
@@ -906,7 +893,7 @@ try {
       }
     } catch (error) {
       log.debug(
-        "Falla en el servicio apra crear journal entryes",
+        "Falla en el servicio apra crear Ordenes de Compra",
         error.message
       );
     }
@@ -959,27 +946,9 @@ try {
       let fileObj = file.load({
         id: fileId,
       });
-      /*folders De Recibido={
-        cuentas:1526,
-        nomina:1533,
-        siniestros:1528,
-        inversiones:1527
-        } */
-      /*folders A Depositar={
-        cuentas:1531,
-        nomina:1534,
-        siniestros:1529,
-        inversiones:1530
-        } */
 
-      if (folderId === 1526) {
-        fileObj.folder = 1531;
-      } else if (folderId === 1533) {
-        fileObj.folder = 1534;
-      } else if (folderId === 1528) {
-        fileObj.folder = 1529;
-      } else if (folderId === 1527) {
-        fileObj.folder = 1530;
+      if (folderId === 2064) {
+        fileObj.folder = 2064;
       }
       fileObj.save();
       log.debug("SE GUARDÓ EL DOCUMENTO");
