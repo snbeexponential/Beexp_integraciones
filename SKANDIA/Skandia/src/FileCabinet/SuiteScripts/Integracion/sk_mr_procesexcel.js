@@ -88,15 +88,11 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"]
           custcol_skan_nota2: element.custcol_skan_nota2 || null,
           journalItemLine_entityRef: element.journalItemLine_entityRef || null,
           cseg_skan_contrato: element.cseg_skan_contrato || null,
-          journalItemLine_departmentRef:
-            element.journalItemLine_departmentRef || null,
+          journalItemLine_departmentRef: element.journalItemLine_departmentRef || null,
           journalItemLine_classRef: element.journalItemLine_classRef || null,
-          journalItemLine_locationRef:
-            element.journalItemLine_locationRef || null,
-          journalItemLine_taxCodeRef:
-            element.journalItemLine_taxCodeRef || null,
-          journalItemLine_taxCodeAmount:
-            element.journalItemLine_taxCodeAmount || null,
+          journalItemLine_locationRef: element.journalItemLine_locationRef || null,
+          journalItemLine_taxCodeRef: element.journalItemLine_taxCodeRef || null,
+          journalItemLine_taxCodeAmount: element.journalItemLine_taxCodeAmount || null,
         
         
         });
@@ -177,31 +173,7 @@ try {
 } catch (error) {
     subsidiary_id=''
     log.debug("Error en la busqueda subsidiaria", error.message);
-}
-/* 
-      try {
-        var subsidiarySearchObj = search.create({
-          type: "subsidiary",
-          filters: [["name", "is", subsidiary_search]],
-          columns: [
-            (search_idsub = search.createColumn({
-              name: "internalid",
-              label: "Internal ID",
-            })),
-          ],
-        });
-        var searchResultCount = subsidiarySearchObj.runPaged().count;
-        subsidiarySearchObj.run().each(function (result) {
-            subsidiary_id = result.getValue(search_idsub);
-            subsidiary_id=12
-            return true;
-        });
-        log.debug( "Se recuepera algo ?? subsidiary_id",subsidiary_id )
-    } catch (error) {
-        log.debug("Error en la busqueda subsidiaria", error.message);
-      }
-        */
-      
+}      
       //#endregion
       //#endregion
       //#region E.- Posting period
@@ -231,9 +203,8 @@ try {
         log.debug("Error en la busqueda posting period", error.message);
       }
       //#endregion
-
-      let currency = datos.cabecera.currency;
       //#region Currency
+      let currency = datos.cabecera.currency;
       try {
         var currencySearchObj = search.create({
           type: "currency",
@@ -273,7 +244,10 @@ try {
         log.debug("error en campos", error.message);
       }
       //#endregion
+
       if (externalid != "" && externalid != null) {
+
+        //
         try {
           var transactionSearchObj = search.create({
             type: "transaction",
@@ -520,24 +494,27 @@ try {
             }
             //Location
             try {
+
+              log.debug( "sUCURSAL iD", journalItemLine_locationRef)
               if (journalItemLine_locationRef) {
-                var locationSearchObj = search.create({
-                  type: "location",
-                  filters: [["name", "is", journalItemLine_locationRef]],
-                  columns: [
-                    (search_location = search.createColumn({
-                      name: "internalid",
-                      label: "Internal ID",
-                    })),
+                var customrecord_cseg_skan_sucSearchObj = search.create({
+                  type: "customrecord_cseg_skan_suc",
+                  filters:
+                  [
+                     ["externalid","anyof",journalItemLine_locationRef]
                   ],
-                });
-                var searchResultCount = locationSearchObj.runPaged().count;
-                log.debug("locationSearchObj result count", searchResultCount);
-                locationSearchObj.run().each(function (result) {
-                  location_id = result.getValue(search_location);
-                  log.debug("location id", location_id);
-                  return true;
-                });
+                  columns:
+                  [
+                     search_location = search.createColumn({name: "internalid", label: "Internal ID"})
+                  ]
+               });
+               var searchResultCount = customrecord_cseg_skan_sucSearchObj.runPaged().count;
+               log.debug("customrecord_cseg_skan_sucSearchObj result count",searchResultCount);
+               customrecord_cseg_skan_sucSearchObj.run().each(function(result){
+                location_id = result.getValue(search_location);
+                log.debug("location id", location_id);
+                return true;
+               });
               } else {
                 location_id = "";
               }
@@ -546,6 +523,7 @@ try {
               log.debug("fallo en busqueda de location", error.message);
             }
             //#endregion
+            
             invObj.setCurrentSublistValue({
               sublistId: "line",
               fieldId: "account",
@@ -593,7 +571,7 @@ try {
               })
               .setCurrentSublistValue({
                 sublistId: "line",
-                fieldId: "location",
+                fieldId: "cseg_skan_suc",
                 value: location_id,
               })
               .commitLine({
@@ -801,23 +779,26 @@ try {
               log.debug("fallo en busqueda de la clase", error.message);
             }
             //Location
+          log.debug( "sUCURSAL iD", journalItemLine_locationRef)
             try {
-              var locationSearchObj = search.create({
-                type: "location",
-                filters: [["name", "is", journalItemLine_locationRef]],
-                columns: [
-                  (search_location = search.createColumn({
-                    name: "internalid",
-                    label: "Internal ID",
-                  })),
+              var customrecord_cseg_skan_sucSearchObj = search.create({
+                type: "customrecord_cseg_skan_suc",
+                filters:
+                [
+                   ["externalid","anyof",journalItemLine_locationRef]
                 ],
-              });
-              var searchResultCount = locationSearchObj.runPaged().count;
-              log.debug("locationSearchObj result count", searchResultCount);
-              locationSearchObj.run().each(function (result) {
-                location_id = result.getValue(search_location);
-                return true;
-              });
+                columns:
+                [
+                   search_location = search.createColumn({name: "internalid", label: "Internal ID"})
+                ]
+             });
+             var searchResultCount = customrecord_cseg_skan_sucSearchObj.runPaged().count;
+             log.debug("customrecord_cseg_skan_sucSearchObj result count",searchResultCount);
+             customrecord_cseg_skan_sucSearchObj.run().each(function(result){
+              location_id = result.getValue(search_location);
+              log.debug("location id", location_id);
+              return true;
+             });
             } catch (error) {
               location_id = "";
               log.debug("fallo en busqueda de location", error.message);
@@ -882,7 +863,7 @@ try {
                 })
                 .setCurrentSublistValue({
                   sublistId: "line",
-                  fieldId: "location",
+                  fieldId: "cseg_skan_suc",
                   value: location_id,
                 })
                 .commitLine({
