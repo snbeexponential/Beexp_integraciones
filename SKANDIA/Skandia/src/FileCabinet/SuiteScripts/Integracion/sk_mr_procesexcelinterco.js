@@ -581,7 +581,7 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                     type: "customrecord_cseg_skan_suc",
                     filters:
                     [
-                       ["externalid","anyof",journalItemLine_locationRef]
+                       ["externalid","anyof",purchaseItemLine_location]
                     ],
                     columns:
                     [
@@ -591,8 +591,8 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                  var searchResultCount = customrecord_cseg_skan_sucSearchObj.runPaged().count;
                  log.debug("customrecord_cseg_skan_sucSearchObj result count",searchResultCount);
                  customrecord_cseg_skan_sucSearchObj.run().each(function(result){
-                  location_id = result.getValue(search_location);
-                  log.debug("location id", location_id);
+                  line_location = result.getValue(search_location);
+                  log.debug("location id", line_location);
                   return true;
                  });
                 } else {
@@ -604,6 +604,37 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
               }
               //#endregion
               //#region Busqueda item 5 Contrato
+              try {
+                if (purchaseItemLine_contrato) {
+                  log.debug("tipo de dato recuperado contrato" , purchaseItemLine_contrato)
+                  var customrecord_skan_contratosSearchObj = search.create({
+                    type: "customrecord_skan_contratos",
+                    filters: [
+                      ["name", "is", purchaseItemLine_contrato],
+                    ],
+                    columns: [
+                      (search_contrato = search.createColumn({
+                        name: "internalid",
+                        label: "Internal ID",
+                      })),
+                    ],
+                  });
+                  var searchResultCount =
+                    customrecord_skan_contratosSearchObj.runPaged().count;
+                  customrecord_skan_contratosSearchObj
+                    .run()
+                    .each(function (result) {
+                      itemLine_contrato_id = result.getValue(search_contrato);
+                      log.debug("Encontramos un contrato" ,itemLine_contrato_id )
+                      return true;
+                    });
+                } else {
+                  itemLine_contrato_id = "";
+                }
+              } catch (error) {
+                itemLine_contrato_id = "";
+                log.debug("Error recuperando id de contrato");
+              }
               //#endregion
               //#region iniciando inserción
               purchaseObj.selectNewLine({
@@ -652,11 +683,11 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                 value: purchaseItemLine_description,
               });
 
-              /* purchaseObj.setCurrentSublistValue({
+              purchaseObj.setCurrentSublistValue({
                 sublistId: "item",
-                fieldId: "",
+                fieldId: "cseg_skan_suc",
                 value: line_location,
-              }) */
+              })
               purchaseObj.setCurrentSublistValue({
                 sublistId: "item",
                 fieldId: "department",
@@ -667,6 +698,12 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                 sublistId: "item",
                 fieldId: "class",
                 value: itemLine_class,
+              })
+
+              purchaseObj.setCurrentSublistValue({
+                sublistId: "item",
+                fieldId: "custcol_skan_contrato_retail",
+                value: itemLine_contrato_id,
               })
 
               purchaseObj.commitLine({
@@ -797,7 +834,7 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                                   type: "customrecord_cseg_skan_suc",
                                   filters:
                                   [
-                                     ["externalid","anyof",journalItemLine_locationRef]
+                                     ["externalid","anyof",purchaseItemLine_location]
                                   ],
                                   columns:
                                   [
@@ -807,7 +844,7 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                                var searchResultCount = customrecord_cseg_skan_sucSearchObj.runPaged().count;
                                log.debug("customrecord_cseg_skan_sucSearchObj result count",searchResultCount);
                                customrecord_cseg_skan_sucSearchObj.run().each(function(result){
-                                location_id = result.getValue(search_location);
+                                line_location = result.getValue(search_location);
                                 log.debug("location id", location_id);
                                 return true;
                                });
@@ -820,6 +857,38 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                             }
                             //#endregion
                             //#region Busqueda item 5 Contrato
+                            try {
+                              if (purchaseItemLine_contrato) {
+                                log.debug("tipo de dato recuperado contrato" , purchaseItemLine_contrato)
+                                var customrecord_skan_contratosSearchObj = search.create({
+                                  type: "customrecord_skan_contratos",
+                                  filters: [
+                                    ["name", "is", purchaseItemLine_contrato],
+                                  ],
+                                  columns: [
+                                    (search_contrato = search.createColumn({
+                                      name: "internalid",
+                                      label: "Internal ID",
+                                    })),
+                                  ],
+                                });
+                                var searchResultCount =
+                                  customrecord_skan_contratosSearchObj.runPaged().count;
+                                customrecord_skan_contratosSearchObj
+                                  .run()
+                                  .each(function (result) {
+                                    itemLine_contrato_id = result.getValue(search_contrato);
+                                    log.debug("Encontramos un contrato" ,itemLine_contrato_id )
+                                    return true;
+                                  });
+                              } else {
+                                itemLine_contrato_id = "";
+                              }
+                            } catch (error) {
+                              itemLine_contrato_id = "";
+                              log.debug("Error recuperando id de contrato");
+                            }
+
                             //#endregion
                             
               let itemcount = purchaseObj.getLineCount({
@@ -869,11 +938,11 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                   fieldId: "description",
                   value: purchaseItemLine_description,
                 });
-                /* purchaseObj.setCurrentSublistValue({
+                purchaseObj.setCurrentSublistValue({
                   sublistId: "item",
-                  fieldId: "",
+                  fieldId: "cseg_skan_suc",
                   value: line_location,
-                }) */
+                })
                 purchaseObj.setCurrentSublistValue({
                   sublistId: "item",
                   fieldId: "department",
@@ -883,6 +952,11 @@ define(["N/email", "N/file", "N/record", "N/search", "xlsx", "N/runtime"],
                   sublistId: "item",
                   fieldId: "class",
                   value: itemLine_class,
+                })
+                purchaseObj.setCurrentSublistValue({
+                  sublistId: "item",
+                  fieldId: "custcol_skan_contrato_retail",
+                  value: itemLine_contrato_id,
                 })
                 purchaseObj.commitLine({
                   sublistId: "item",

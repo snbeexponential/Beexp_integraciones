@@ -392,8 +392,9 @@ try {
               }
             } catch (error) {
               entity_id = "";
-              log.debug("Error recuperando id de cliente 369", error.message);
+              log.debug("Error recuperando id de cliente ", error.message);
             }
+            //Contrato
             try {
               if (journalItemLine_custcol_skan_contrato2) {
                 log.debug("tipo de dato recuperado contrato" , journalItemLine_custcol_skan_contrato2)
@@ -423,7 +424,7 @@ try {
               }
             } catch (error) {
               contrato_id = "";
-              log.debug("Error recuperando id de contrato 391");
+              log.debug("Error recuperando id de contrato");
             }
 
             //Department
