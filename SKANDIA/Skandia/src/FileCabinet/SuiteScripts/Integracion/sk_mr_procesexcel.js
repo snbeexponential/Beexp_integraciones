@@ -521,7 +521,7 @@ try {
               }
             } catch (error) {
               location_id = "";
-              log.debug("fallo en busqueda de location", error.message);
+              log.debug("fallo en busqueda de sucursal", error.message);
             }
             //#endregion
             
